@@ -1,0 +1,62 @@
+---
+title: "CompulsoryExercise1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## Problem 4
+Show that for the linear regression model $Y=X\beta+\epsilon$ the LOOCV statistic can be computed by the following formula
+
+$CV = \frac{1}{N}\sum^N_{i=1}(\frac{y_i - \hat{y}_i}{1-h_i})^2$, where $h_i=X^T_i(X_TX)^{-1}x_i$, and $x^T_i$ is the ith row of X.
+
+The estimate of $\beta$ is given by
+$\hat{\beta_i}=(X^T_{(-i)}X_{(-i)})X_{(-i)}Y$
+
+This gives us that $y_i-\hat{y}_i = y_i - x^T_{(-i)\hat{\beta_i}$
+
+We know that $X^T_{(-i)}X_{(-i)}=(X^TX−x_{i}x^T_i)$
+We can then use the Sherman Morrison formula, to find $(X^T_{(-1)}X_{(-1)})^{-1} = (X^TX)^{−1}+\frac{(X^TX)^{−1}x_{i}x^T_{i}(X^TX)^{−1}}{1−h_i}$
+
+We can use this to find $\hat{\beta}$
+
+$$\hat{\beta}_i 
+= ((X^TX)^{−1}+\frac{(X^TX)^{−1}x_{i}x^T_{i}(X^TX)^{−1}}{1−h_i})(X^TY-x_iy_i)
+= \hat{\beta} - (\frac{(X^TX)^{−1}x_{i}}{1−h_i})(y_i(1-h_i)-x^T_i\hat{\beta}+h_iy_i)
+=\hat{\beta}-(X^TX)^{-1}x_i\frac{y_i - \hat{y}_i}{1-h_i}
+$$
+
+Therefore we get, 
+
+$$
+y_i - \hat{y}_i = y_i-x^T_i\hat{\beta} = y_i-x^T_i(\hat{\beta}-(X^TX)^{-1}x_i\frac{y_i - \hat{y}_i}{1-h_i}) 
+= y_i - \hat{y}_i \ h_i \frac{y_i - \hat{y}_i}{1-h_i}
+= \frac{y_i - \hat{y}_i}{1-h_i}
+$$
+
+### B)
+
+
+
