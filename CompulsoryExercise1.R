@@ -112,3 +112,27 @@ print("The specificity is:")
 conf_mat[1,1]/(conf_mat[1,2]+conf_mat[1,1])
 
 
+# B)
+
+# i)
+# TODO: Explain what the coefficients are.
+
+# ii)
+# TODO: Fit LDA
+lda_model <- lda(diabetes ~ ., data=train)
+pred <- predict(lda_model, newdata=test[-1])
+conf_mat = create_confusion_matrix(unlist(pred[1]), test$diabetes)
+conf_mat
+
+# With cutOff = 0.5: pred[1]
+# Posterior probabilities: pred[2]
+
+# TODO: Fit QDA
+qda_model <- qda(diabetes ~ ., data=train)
+pred <- predict(qda_model, newdata=test[-1])
+conf_mat = create_confusion_matrix(unlist(pred[1]), test$diabetes)
+conf_mat
+
+# TODO: Explain difference between the models.
+# TODO: Create confusion tables.
+
