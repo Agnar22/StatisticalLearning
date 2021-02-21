@@ -11,6 +11,7 @@
 library(ggplot2)
 library(caret)
 library(MASS)
+library(class)
 
 
 # Problem 1.
@@ -118,21 +119,36 @@ conf_mat[1,1]/(conf_mat[1,2]+conf_mat[1,1])
 # TODO: Explain what the coefficients are.
 
 # ii)
-# TODO: Fit LDA
 lda_model <- lda(diabetes ~ ., data=train)
 pred <- predict(lda_model, newdata=test[-1])
 conf_mat = create_confusion_matrix(unlist(pred[1]), test$diabetes)
 conf_mat
-
 # With cutOff = 0.5: pred[1]
 # Posterior probabilities: pred[2]
 
-# TODO: Fit QDA
 qda_model <- qda(diabetes ~ ., data=train)
 pred <- predict(qda_model, newdata=test[-1])
 conf_mat = create_confusion_matrix(unlist(pred[1]), test$diabetes)
 conf_mat
 
 # TODO: Explain difference between the models.
-# TODO: Create confusion tables.
+
+# C)
+
+# i)
+# TODO: Explain how a new observation is classified.
+
+# ii)
+# TODO: Explain how to choose the tuning parameter.
+
+# iii)
+pred <- knn(train = train[-1], test=test[-1], cl=unlist(train[1]), k=25, prob=TRUE)
+#attributes(pred)$prob
+conf_mat = create_confusion_matrix(unlist(pred), test$diabetes)
+conf_mat
+print("The sensitivity is:")
+conf_mat[2,2]/(conf_mat[2,1]+conf_mat[2,2])
+print("The specificity is:")
+conf_mat[1,1]/(conf_mat[1,2]+conf_mat[1,1])
+
 
