@@ -143,13 +143,28 @@ conf_mat
 # TODO: Explain how to choose the tuning parameter.
 
 # iii)
-pred <- knn(train = train[-1], test=test[-1], cl=unlist(train[1]), k=25, prob=TRUE)
+pred_knn <- knn(train = train[-1], test=test[-1], cl=unlist(train[1]), k=25, prob=TRUE)
 #attributes(pred)$prob
-conf_mat = create_confusion_matrix(unlist(pred), test$diabetes)
+conf_mat = create_confusion_matrix(unlist(pred_knn), test$diabetes)
 conf_mat
 print("The sensitivity is:")
 conf_mat[2,2]/(conf_mat[2,1]+conf_mat[2,2])
 print("The specificity is:")
 conf_mat[1,1]/(conf_mat[1,2]+conf_mat[1,1])
 
+# D)
+roc.log_reg <- roc(response = test$diabetes, predictor = pred_log_reg, plot=FALSE)
+roc.lda <- roc(response = test$diabetes, predictor = pred_lda$posterior[,2], plot=FALSE)
+roc.qda <- roc(response = test$diabetes, predictor = pred_qda$posterior[,2], plot=FALSE)
+# TODO: knn not correct use 1-p(y=0) when categorization is 0.
+roc.knn <- roc(response = test$diabetes, predictor = attributes(pred_knn)$prob, plot=FALSE)
 
+plot(roc.log_reg, main="ROC", col="red")
+plot(roc.lda, add=TRUE, col="green")
+plot(roc.qda, add=TRUE, col="blue")
+plot(roc.knn, add=TRUE, col="black")
+legend('topright', c("log_reg","lda", "qda", "knn"),
+       lty=1, col=c('red', 'green', 'blue',' black'), bty='n', cex=.75)
+
+# TODO: Which model performs better?
+# TODO: Which model is interpretable and performs well?
