@@ -12,6 +12,7 @@ library(ggplot2)
 library(caret)
 library(MASS)
 library(class)
+library(pROC)
 
 
 # Problem 1.
@@ -100,11 +101,11 @@ create_confusion_matrix <- function(pred, target) {
 }
 
 cutOff = 0.5
-pred <- predict(logReg, newdata = test[-1], type="response")
+pred_log_reg <- predict(logReg, newdata = test[-1], type="response")
 #confMat <- table(pred>cutOff, test$diabetes)
 #colnames(confMat) <- c("PRED FALSE", "PRED TRUE")
 #row.names(confMat) <- c("TARGET FALSE", "TARGET TRUE")
-conf_mat = create_confusion_matrix(pred>cutOff, test$diabetes)
+conf_mat = create_confusion_matrix(pred_log_reg>cutOff, test$diabetes)
 conf_mat
 
 print("The sensitivity is:")
@@ -120,15 +121,15 @@ conf_mat[1,1]/(conf_mat[1,2]+conf_mat[1,1])
 
 # ii)
 lda_model <- lda(diabetes ~ ., data=train)
-pred <- predict(lda_model, newdata=test[-1])
-conf_mat = create_confusion_matrix(unlist(pred[1]), test$diabetes)
+pred_lda <- predict(lda_model, newdata=test[-1])
+conf_mat = create_confusion_matrix(unlist(pred_lda[1]), test$diabetes)
 conf_mat
 # With cutOff = 0.5: pred[1]
 # Posterior probabilities: pred[2]
 
 qda_model <- qda(diabetes ~ ., data=train)
-pred <- predict(qda_model, newdata=test[-1])
-conf_mat = create_confusion_matrix(unlist(pred[1]), test$diabetes)
+pred_qda <- predict(qda_model, newdata=test[-1])
+conf_mat = create_confusion_matrix(unlist(pred_qda[1]), test$diabetes)
 conf_mat
 
 # TODO: Explain difference between the models.
