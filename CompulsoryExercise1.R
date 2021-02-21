@@ -6,8 +6,12 @@
 #install.packages("class")
 #install.packages("pROC")
 #install.packages("plotROC")
+#install.packages("caret")
 
 library(ggplot2)
+library(caret)
+library(MASS)
+
 
 # Problem 1.
 
@@ -66,3 +70,45 @@ ggplot(dfAll) + geom_line(aes(x = lambda, y = exp_mse), color = "blue") +
   xlab(expression(lambda)) +
   ylab(expression(E(MSE))
 )
+
+# Problem 3.
+
+# read file
+id <- "1i1cQPeoLLC_FyAH0nnqCnnrSBpn05_hO"  # google file ID
+diab <- dget(sprintf("https://docs.google.com/uc?id=%s&export=download", id))
+
+t = MASS::Pima.tr2
+train = diab$ctrain
+test = diab$ctest
+
+# A)
+
+logReg = glm(diabetes ~ ., data = train, family = "binomial")
+summary(logReg)
+
+# i)
+# TODO: Show that...
+
+# ii)
+
+create_confusion_matrix <- function(pred, target) {
+  confMat <- table(pred, test$diabetes)
+  colnames(confMat) <- c("PRED FALSE", "PRED TRUE")
+  row.names(confMat) <- c("TARGET FALSE", "TARGET TRUE")
+  return(confMat)
+}
+
+cutOff = 0.5
+pred <- predict(logReg, newdata = test[-1], type="response")
+#confMat <- table(pred>cutOff, test$diabetes)
+#colnames(confMat) <- c("PRED FALSE", "PRED TRUE")
+#row.names(confMat) <- c("TARGET FALSE", "TARGET TRUE")
+conf_mat = create_confusion_matrix(pred>cutOff, test$diabetes)
+conf_mat
+
+print("The sensitivity is:")
+conf_mat[2,2]/(conf_mat[2,1]+conf_mat[2,2])
+print("The specificity is:")
+conf_mat[1,1]/(conf_mat[1,2]+conf_mat[1,1])
+
+
