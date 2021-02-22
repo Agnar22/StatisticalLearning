@@ -268,20 +268,23 @@ sens_qda <- qda_conf[2,1] / (sum(qda_conf[2,]))
 id <- "19auu8YlUJJJUsZY8JZfsCTWzDm6doE7C" # google file ID
 d.bodyfat <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", id),header=T)
 
+bmi_model <- lm(bodyfat ~ age + weight + bmi, d.bodyfat)
+summary(bmi_model)$r.squared
+
 rsquared <- function(data, indices) {
   d <- data[indices,] # select samples
-  fit <- lm(bodyfat ~ age + weight + bmi, data = d)
-  return(summary(fit)$r.square)
+  fit <- lm(bodyfat ~ age + weight + bmi, d)
+  return(summary(fit)$r.squared)
 }
 
-rsquared(d.bodyfat, nrow(d.bodyfat))
+rsquared(d.bodyfat)
 # The R^2 for a linear regression model is 0.5803
 
 set.seed(4268)
 
 # bootstrapping with 1000 replications
 results <- boot(data=d.bodyfat, statistic=rsquared,
-                R=1000, formula=bmi_formula)
+                R=1000)
 
 # view results
 results
@@ -289,3 +292,5 @@ plot(results)
 
 # get 95% confidence interval
 boot.ci(results, type="bca")
+
+# There 
