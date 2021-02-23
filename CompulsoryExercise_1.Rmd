@@ -49,6 +49,10 @@ ggplot(dfBias, aes(x = lambdas, y = bias)) + geom_line(color = "red") + xlab(exp
 ```
 
 ### TODO: Fill in value (squared bias) and comment on what we see.
+From the figure above, it is clear that the bias increases when the lambda increases.
+This is natural, as the lambda is regularising hyperparameter: larger values of lambda
+constrains the $\beta$ values more. We do also see that the squared bias starts to decreas when $\lambda$ is approximately $0.1 < \lambda < 0.45$. The cause for this is that the bias is actually negative when $\lambda < 0.45$, so the bias is actually increasing
+for that interval thus the squared value is decreasing.
 
 ## E)
 
@@ -67,6 +71,10 @@ ggplot(dfVar, aes(x = lambdas, y = var)) + geom_line(color = "green4") + xlab(ex
   ylab("variance")
 ```
 ### TODO: Fill in value and comment on what we see.
+From the figure above, it is clear that the variance decreases when the lambda increases.
+This is natural, as the lambda is regularising hyperparameter: larger values of lambda
+constrains the $\beta$ values more.
+
 
 ## F)
 
