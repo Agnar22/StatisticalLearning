@@ -99,7 +99,9 @@ ggplot(dfAll) + geom_line(aes(x = lambda, y = exp_mse), color = "blue") +
 
 # Problem 2
 
-```
+## A)
+
+```{r problem 2 A, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 # read file
 id <- "1yYlEl5gYY3BEtJ4d7KWaFGIOEweJIn__" # google file ID
 d.corona <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", id),header=T)
@@ -127,90 +129,78 @@ number_of_deceased_and_non_deceased_in_France_for_each_sex <- filter(d.corona, d
   group_by(deceased, sex) %>%
   summarise(amount = n()) %>%
   arrange(desc(amount)) 
+``` 
 
+## B)
 
-#Linear regression
-
+```{r problem 2 glm, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 train_ID = sample(1:nrow(d.corona), nrow(d.corona)/(3/2))
 train_data = d.corona[train_ID, ]
 test_data = d.corona[-train_ID, ]
 
-age_vs_deceased <- d.corona %>%
-  group_by(age, deceased) %>%
-  summarise(amount = n()) %>%
-  arrange(desc(amount))
-
-age_country_deceased <- d.corona %>%
-  group_by(age, deceased, country) %>%
-  summarise(amount = n()) %>%
-  arrange(desc(amount)) 
-
-scatter_plot <- scatter.smooth(x=age_vs_deceased$age, y=age_vs_deceased$amount, main="Age ~ Deceased")
-cor(d.corona$age, d.corona$deceased)
 
 model <- glm(deceased ~ age + country + sex, family = binomial, data=train_data)
-anova(model)
 summary(model)
 coefficients(model)
+```
 
-test <- filter( d.corona, d.corona$country == "Korea" & d.corona$age == "75" & d.corona$sex == "male")
-
-create_confusion_matrix <- function(pred, target) {
-  confMat <- table(pred, target)
-  colnames(confMat) <- c("PRED FALSE", "PRED TRUE")
-  row.names(confMat) <- c("TARGET FALSE", "TARGET TRUE")
-  return(confMat)
-}
-
-
-# 1. What is the probability to die of covid for a male age 75 living in Korea?
+### i). What is the probability to die of covid for a male age 75 living in Korea?
+```{r problem 2 prob, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 data_point <- data.frame("age" = 75, "sex" = "male","country" = "Korea")
 predict(model, newdata = data_point, type = "response")
-# There are a 10.01 % chance of a 75 year-old korean male dying of covid. 
+```
+There are a 10.01 % chance of a 75 year-old korean male dying of covid. 
 
-# 2. Is there evidence that males have higher probability to die than females?
-# Yes, the regression model shows that there are a higher probability for males to die than females.
-# There is statistically significant evidence that males have a higher probability of dying of covid. 
+### ii). Is there evidence that males have higher probability to die than females?
+Yes, the summary of the regression model shows that there are a higher probability for males to die than females.
+There is statistically significant evidence that males have a higher probability of dying of covid. 
   
-# 3. Is there evidence that the country of residence has an influence on the probability to decease?
-# Yes, there is evidence that the country of residence has an impact on the probability to decease. There is a big difference between in the probability of decease in Korea, Japan, and Indonesia. Indonesia has a much higher probability of decease than the rest. 
-# There is evidence that for France and Indonesia, the country of residence does not impace the probability as much. While for Korea and Japan it has a bigger influence. This is due to the estimate of the dummy variables for France and Indonesia has a larger Pr(>|z|). 
+### iii). Is there evidence that the country of residence has an influence on the probability to decease?
+Yes, there is evidence that the country of residence has an impact on the probability to decease. There is a big difference between in the probability of decease in Korea, Japan, and Indonesia. Indonesia has a much higher probability of decease than the rest. 
+There is evidence that for France and Indonesia, the country of residence does not impace the probability as much. While for Korea and Japan it has a bigger influence. This is due to the estimate of the dummy variables for France and Indonesia has a larger Pr(>|z|). 
 
-# 4. Quantify how the odds to die changes when someone with otherwise identical covariates is 10 years older than another person.
+### iv). Quantify how the odds to die changes when someone with otherwise identical covariates is 10 years older than another person.
+```{r problem 2 odds, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 summary(model)
 odds <- exp(10*coefficients(model)[2])
+```
 
-# C.
+## C)
 
-# Is age a greater risk factor for males than for females?
+### i). Is age a greater risk factor for males than for females?
 
-# Is age a greater risk factor for the French population than for the Indonesian population?
+### ii). Is age a greater risk factor for the French population than for the Indonesian population?
 
-# D.
+## D)
 
+```{r problem 2 lda, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 lda_model <- lda(deceased ~ age + country + sex, data=d.corona)
 lda_pred <- predict(lda_model, newdata=test_data[-1])
 conf_matrix <- create_confusion_matrix(unlist(lda_pred[1]), test_data$deceased)
 sum(conf_matrix)
 null_rate <- (conf_matrix[2,1] + conf_matrix[2,2]) / sum(conf_matrix) 
-# 1. The "null rate" for misclassification is 5.22%, because this is the proportion of deaths among all cases in the dataset. 
-# False
+```
+### i). The "null rate" for misclassification is 5.22%, because this is the proportion of deaths among all cases in the dataset. 
+False
 
-# 2. LDA is not a very useful method for this dataset.
-# False
+### ii). LDA is not a very useful method for this dataset.
+False
 
-# 3. LDA has a specificity of 1.
+### iii). LDA has a specificity of 1.
+```{r problem 2 specificity, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 specificity <- conf_matrix[1,1] / (conf_matrix[1,1] + conf_matrix[1,2])
-# False
+```
+False
 
-# 4. QDA has a lower sensitivity to classify deceased compared to LDA.
+### iv). QDA has a lower sensitivity to classify deceased compared to LDA.
+```{r problem 2 qda, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 qda_model <- qda(deceased ~ ., data=d.corona)
 qda_pred <- predict(qda_model, newdata=test_data[-1])
 qda_conf <- create_confusion_matrix(unlist(qda_pred[1]), test_data$deceased)
 sens_lda <- conf_matrix[2,1] / (sum(conf_matrix[2,]))
 sens_qda <- qda_conf[2,1] / (sum(qda_conf[2,]))
-# False, they are equal
 ```
+False, they are equal
 
 # Task 3
 
@@ -379,6 +369,7 @@ rsquared <- function(data, indices) {
 
 rsquared(d.bodyfat, nrow(d.bodyfat))
 ```
+
 The R^2 for a linear regression model is 0.5803
 
 ## B)
