@@ -7,22 +7,196 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Import neccessary packages
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r libraries, message=FALSE, include=TRUE, eval=TRUE}
+library(ggplot2)
+library(caret)
+library(MASS)
+library(class)
+library(pROC)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+# Task 1
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+## D)
+
+Load the data.
+```{r data, include=TRUE, message=FALSE, eval=TRUE}
+id <- "1X_8OKcoYbng1XvYFDirxjEWr7LtpNr1m"  # google file ID
+values <- dget(sprintf("https://docs.google.com/uc?id=%s&export=download", id))
+X = values$X
+x0 = values$x0
+beta = values$beta
+sigma = values$sigma
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+Display squared bias.
+```{r squared bias, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+bias = function(lambda, X, x0, beta) {
+  p = ncol(X)
+  value = (t(x0) %*% solve((t(X) %*% X + lambda * diag(p))) %*% t(X) %*% X %*% beta - t(x0) %*% beta ) ^ 2
+  return(value)
+}
+lambdas = seq(0, 2, length.out = 500)
+BIAS = rep(NA, length(lambdas))
+for (i in 1:length(lambdas)) BIAS[i] = bias(lambdas[i], X, x0, beta)
+dfBias = data.frame(lambdas = lambdas, bias = BIAS)
+ggplot(dfBias, aes(x = lambdas, y = bias)) + geom_line(color = "red") + xlab(expression(lambda)) +
+  ylab(expression(bias^2))
+```
+
+### TODO: Fill in value (squared bias) and comment on what we see.
+
+## E)
+
+```{r variance, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+variance = function(lambda, X, x0, sigma) {
+  p = ncol(X)
+  inv = solve(t(X) %*% X + lambda * diag(p))
+  value = sigma * sigma * t(x0) %*% solve(t(X) %*% X + lambda * diag(p)) %*% t(X) %*% X %*% solve(t(X) %*% X + lambda * diag(p)) %*% x0
+  return(value)
+}
+lambdas = seq(0, 2, length.out = 500)
+VAR = rep(NA, length(lambdas))
+for (i in 1:length(lambdas)) VAR[i] = variance(lambdas[i], X, x0, sigma)
+dfVar = data.frame(lambdas = lambdas, var = VAR)
+ggplot(dfVar, aes(x = lambdas, y = var)) + geom_line(color = "green4") + xlab(expression(lambda)) +
+  ylab("variance")
+```
+### TODO: Fill in value and comment on what we see.
+
+## F)
+
+```{r expected mse, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+
+exp_mse = BIAS + VAR + sigma * sigma
+lambdas[which.min(exp_mse)]
+
+dfAll = data.frame(lambda = lambdas, bias = BIAS, var = VAR, exp_mse = exp_mse)
+ggplot(dfAll) + geom_line(aes(x = lambda, y = exp_mse), color = "blue") +
+  geom_line(aes(x = lambda, y = bias), color = "red") +
+  geom_line(aes(x = lambda, y = var), color = "green4") +
+  xlab(expression(lambda)) +
+  ylab(expression(E(MSE))
+)
+```
+
+### TODO: Fill in exp_mse and find value of lambda that minimizes mse.
+### TODO: Comment on what we see.
+### TODO: When generating the pdf, change to eval=True
+
+# Task 3
+
+
+```{r data problem 3, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+# read file
+id <- "1i1cQPeoLLC_FyAH0nnqCnnrSBpn05_hO"  # google file ID
+diab <- dget(sprintf("https://docs.google.com/uc?id=%s&export=download", id))
+
+t = MASS::Pima.tr2
+train = diab$ctrain
+test = diab$ctest
+```
+
+## A)
+
+### i)
+#### TODO: Show that...
+
+### ii)
+```{r logistic regression, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+logReg = glm(diabetes ~ ., data = train, family = "binomial")
+summary(logReg)
+
+create_confusion_matrix <- function(pred, target) {
+  confMat <- table(pred, test$diabetes)
+  colnames(confMat) <- c("PRED FALSE", "PRED TRUE")
+  row.names(confMat) <- c("TARGET FALSE", "TARGET TRUE")
+  return(confMat)
+}
+
+cutOff = 0.5
+pred_log_reg <- predict(logReg, newdata = test[-1], type="response")
+conf_mat = create_confusion_matrix(pred_log_reg>cutOff, test$diabetes)
+conf_mat
+
+print("The sensitivity is:")
+conf_mat[2,2]/(conf_mat[2,1]+conf_mat[2,2])
+print("The specificity is:")
+conf_mat[1,1]/(conf_mat[1,2]+conf_mat[1,1])
+```
+
+
+## B)
+
+### i)
+#### TODO: Explain what the coefficients are.
+
+### ii)
+```{r linear-/quadretic discriminant analysis, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+lda_model <- lda(diabetes ~ ., data=train)
+pred_lda <- predict(lda_model, newdata=test[-1])
+conf_mat = create_confusion_matrix(unlist(pred_lda[1]), test$diabetes)
+conf_mat
+# With cutOff = 0.5: pred[1]
+# Posterior probabilities: pred[2]
+
+qda_model <- qda(diabetes ~ ., data=train)
+pred_qda <- predict(qda_model, newdata=test[-1])
+conf_mat = create_confusion_matrix(unlist(pred_qda[1]), test$diabetes)
+conf_mat
+
+```
+#### TODO: Explain difference between the models.
+
+## C)
+
+### i)
+#### TODO: Explain how a new observation is classified.
+
+### ii)
+#### TODO: Explain how to choose the tuning parameter.
+
+### iii)
+```{r knn, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+pred_knn <- knn(train = train[-1], test=test[-1], cl=unlist(train[1]), k=25, prob=TRUE)
+
+convert <- function(pred, prob) {
+  # Invert probabilities: the probabilites from knn(...) are the success probabilities
+  # for the predicted class, thus P(y=2) = 1 - P(y=1) when we predicted 1.
+  inv_prob = c()
+  for(pos in 1:length(prob)) {
+    inv_prob[pos] <- ifelse(as.numeric(pred[pos])==2, prob[pos], 1-prob[pos])
+  }
+  return(inv_prob)
+}
+prob_knn_adj <- convert(pred_knn, attributes(pred_knn)$prob)
+
+conf_mat = create_confusion_matrix(unlist(pred_knn), test$diabetes)
+conf_mat
+print("The sensitivity is:")
+conf_mat[2,2]/(conf_mat[2,1]+conf_mat[2,2])
+print("The specificity is:")
+conf_mat[1,1]/(conf_mat[1,2]+conf_mat[1,1])
+```
+
+## D)
+```{r roc, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+roc.log_reg <- roc(response = test$diabetes, predictor = pred_log_reg, plot=FALSE)
+roc.lda <- roc(response = test$diabetes, predictor = pred_lda$posterior[,2], plot=FALSE)
+roc.qda <- roc(response = test$diabetes, predictor = pred_qda$posterior[,2], plot=FALSE)
+roc.knn <- roc(response = test$diabetes, predictor = prob_knn_adj, plot=FALSE)
+
+plot(roc.log_reg, main="ROC", col="red")
+plot(roc.lda, add=TRUE, col="green")
+plot(roc.qda, add=TRUE, col="blue")
+plot(roc.knn, add=TRUE, col="black")
+legend('topright', c("log_reg","lda", "qda", "knn"),
+       lty=1, col=c('red', 'green', 'blue',' black'), bty='n', cex=.75)
+```
+
+### TODO: Which model performs better?
+### TODO: Which model is interpretable and performs well?
