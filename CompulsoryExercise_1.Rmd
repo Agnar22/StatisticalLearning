@@ -15,6 +15,12 @@ library(caret)
 library(MASS)
 library(class)
 library(pROC)
+library(knitr)
+library(dplyr)
+library(ggplot2)
+library(GGally)
+library(MASS)
+library(boot)
 ```
 
 
@@ -176,6 +182,14 @@ odds <- exp(10*coefficients(model)[2])
 ```{r problem 2 lda, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 lda_model <- lda(deceased ~ age + country + sex, data=d.corona)
 lda_pred <- predict(lda_model, newdata=test_data[-1])
+
+create_confusion_matrix <- function(pred, target) {
+  confMat <- table(pred, target)
+  colnames(confMat) <- c("PRED FALSE", "PRED TRUE")
+  row.names(confMat) <- c("TARGET FALSE", "TARGET TRUE")
+  return(confMat)
+}
+
 conf_matrix <- create_confusion_matrix(unlist(lda_pred[1]), test_data$deceased)
 sum(conf_matrix)
 null_rate <- (conf_matrix[2,1] + conf_matrix[2,2]) / sum(conf_matrix) 
@@ -221,16 +235,10 @@ test = diab$ctest
 #### TODO: Show that...
 
 ### ii)
-```{r logistic regression, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+```{r logistic regression 3, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 logReg = glm(diabetes ~ ., data = train, family = "binomial")
 summary(logReg)
 
-create_confusion_matrix <- function(pred, target) {
-  confMat <- table(pred, test$diabetes)
-  colnames(confMat) <- c("PRED FALSE", "PRED TRUE")
-  row.names(confMat) <- c("TARGET FALSE", "TARGET TRUE")
-  return(confMat)
-}
 
 cutOff = 0.5
 pred_log_reg <- predict(logReg, newdata = test[-1], type="response")
@@ -316,6 +324,7 @@ legend('topright', c("log_reg","lda", "qda", "knn"),
 ### TODO: Which model is interpretable and performs well?
 
 
+<!--
 # Problem 4
 
 ## A)
@@ -355,9 +364,8 @@ $$
 4. False
 
 # Problem 5
-
 ## A) 
-```{r ,r_squared include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+```{r r_squared, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 id <- "19auu8YlUJJJUsZY8JZfsCTWzDm6doE7C" # google file ID
 d.bodyfat <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", id),header=T)
 
@@ -373,7 +381,7 @@ rsquared(d.bodyfat, nrow(d.bodyfat))
 The R^2 for a linear regression model is 0.5803
 
 ## B)
-```{r logistic regression, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+```{r logistic regression 5, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 set.seed(4268)
 
 # bootstrapping with 1000 replications
@@ -387,3 +395,4 @@ plot(results)
 # get 95% confidence interval
 boot.ci(results, type="bca")
 ```
+-->
