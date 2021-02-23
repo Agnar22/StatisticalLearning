@@ -144,7 +144,18 @@ conf_mat
 
 # iii)
 pred_knn <- knn(train = train[-1], test=test[-1], cl=unlist(train[1]), k=25, prob=TRUE)
-#attributes(pred)$prob
+
+convert <- function(pred, prob) {
+  # Invert probabilities: the probabilites from knn(...) are the success probabilities
+  # for the predicted class, thus P(y=2) = 1 - P(y=1) when we predicted 1.
+  inv_prob = c()
+  for(pos in 1:length(prob)) {
+    inv_prob[pos] <- ifelse(as.numeric(pred[pos])==2, prob[pos], 1-prob[pos])
+  }
+  return(inv_prob)
+}
+prob_knn_adj <- convert(pred_knn, attributes(pred_knn)$prob)
+
 conf_mat = create_confusion_matrix(unlist(pred_knn), test$diabetes)
 conf_mat
 print("The sensitivity is:")
@@ -156,8 +167,7 @@ conf_mat[1,1]/(conf_mat[1,2]+conf_mat[1,1])
 roc.log_reg <- roc(response = test$diabetes, predictor = pred_log_reg, plot=FALSE)
 roc.lda <- roc(response = test$diabetes, predictor = pred_lda$posterior[,2], plot=FALSE)
 roc.qda <- roc(response = test$diabetes, predictor = pred_qda$posterior[,2], plot=FALSE)
-# TODO: knn not correct use 1-p(y=0) when categorization is 0.
-roc.knn <- roc(response = test$diabetes, predictor = attributes(pred_knn)$prob, plot=FALSE)
+roc.knn <- roc(response = test$diabetes, predictor = prob_knn_adj, plot=FALSE)
 
 plot(roc.log_reg, main="ROC", col="red")
 plot(roc.lda, add=TRUE, col="green")
