@@ -294,7 +294,9 @@ where $I(x)$ is 1 if $\mathbf{x}$ is true and 0 if $\mathbf{x}$ is false and $N$
 The final classification for the new variable is the most occuring class among its neighbours.
 
 ### ii)
-#### TODO: Explain how to choose the tuning parameter.
+It is possible to choose the tuning parameter, k, by using cross validation and see which value of k the
+validation loss is the lowest.
+
 
 ### iii)
 ```{r knn, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
