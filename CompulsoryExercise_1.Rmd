@@ -1,5 +1,8 @@
 ---
-title: "CompulsoryExercise_1"
+subtitle: "TMA4268 Statistical Learning V2021"
+title: "Compulsory exercise 1: 42"
+author: "Agnar Martin Bjørnstad, Sebastian Aas"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
     df_print: paged
