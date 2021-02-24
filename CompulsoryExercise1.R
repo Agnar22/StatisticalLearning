@@ -304,8 +304,6 @@ sens_qda <- qda_conf[2,1] / (sum(qda_conf[2,]))
 
 # Problem 4
 
-CV
-
 
 
 # Problem 5
