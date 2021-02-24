@@ -60,7 +60,6 @@ ggplot(dfBias, aes(x = lambdas, y = bias)) + geom_line(color = "red") + xlab(exp
   ylab(expression(bias^2))
 ```
 
-### TODO: Fill in value (squared bias) and comment on what we see.
 From the figure above, it is clear that the bias increases when the lambda increases.
 This is natural, as the lambda is regularising hyperparameter: larger values of lambda
 constrains the $\beta$ values more. We do also see that the squared bias starts to decreas when $\lambda$ is approximately $0.1 < \lambda < 0.45$. The cause for this is that the bias is actually negative when $\lambda < 0.45$, so the bias is actually increasing
@@ -82,10 +81,10 @@ dfVar = data.frame(lambdas = lambdas, var = VAR)
 ggplot(dfVar, aes(x = lambdas, y = var)) + geom_line(color = "green4") + xlab(expression(lambda)) +
   ylab("variance")
 ```
-### TODO: Fill in value and comment on what we see.
+
 From the figure above, it is clear that the variance decreases when the lambda increases.
 This is natural, as the lambda is regularising hyperparameter: larger values of lambda
-constrains the $\beta$ values more.
+constrains the $\beta$ values more, causing less variance.
 
 
 ## F)
@@ -106,7 +105,6 @@ ggplot(dfAll) + geom_line(aes(x = lambda, y = exp_mse), color = "blue") +
 
 ### TODO: Fill in exp_mse and find value of lambda that minimizes mse.
 ### TODO: Comment on what we see.
-### TODO: When generating the pdf, change to eval=True
 
 
 # Problem 2
