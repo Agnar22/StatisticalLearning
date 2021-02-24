@@ -1772,7 +1772,8 @@ filter(d.corona, d.corona$country == &quot;France&quot;) %&gt;%
 </div>
 <div id="b" class="section level2">
 <h2>B)</h2>
-<pre class="r"><code>train_ID = sample(1:nrow(d.corona), nrow(d.corona)/(3/2))
+<pre class="r"><code>set.seed(4268)
+train_ID = sample(1:nrow(d.corona), nrow(d.corona)/(3/2))
 train_data = d.corona[train_ID, ]
 test_data = d.corona[-train_ID, ]
 

@@ -105,9 +105,7 @@ ggplot(dfAll) + geom_line(aes(x = lambda, y = exp_mse), color = "blue") +
 )
 ```
 
-### TODO: Fill in exp_mse and find value of lambda that minimizes mse.
-### TODO: Comment on what we see.
-
+From the plot we see that the value of $\lambda$ that minimizes the expected mse is 0.993988.
 
 # Problem 2
 
@@ -148,6 +146,7 @@ filter(d.corona, d.corona$country == "France") %>%
 ## B)
 
 ```{r problem 2 glm, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+set.seed(4268)
 train_ID = sample(1:nrow(d.corona), nrow(d.corona)/(3/2))
 train_data = d.corona[train_ID, ]
 test_data = d.corona[-train_ID, ]
@@ -271,7 +270,13 @@ test = diab$ctest
 ## A)
 
 ### i)
-#### TODO: Show that...
+$P(y_i = 1| \mathbf{X}={\mathbf{x}}_i) = p_i = \frac{e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}{ 1+ e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}$
+
+$1-p_i=\frac{1+e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}-e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}{ 1+ e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}= \frac{1}{ 1+ e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}$
+
+$\frac{p_i}{1-p_i}=\frac{\frac{e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}{ 1+ e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}}{\frac{1}{ 1+ e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}}=e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}$
+
+$log(\frac{p_i}{1-p_i})=log(e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}})=\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}$
 
 ### ii)
 ```{r logistic regression 3, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
@@ -294,7 +299,14 @@ conf_mat[1,1]/(conf_mat[1,2]+conf_mat[1,1])
 ## B)
 
 ### i)
-#### TODO: Explain what the coefficients are.
+$\pi_k$ denotes the prior probability that an observation belongs to the k'th class. In this case $\pi_0$ and $\pi_1$ is the proportion of people in the training set without and with diabets, respectively.
+
+$\mu_k$ is a class specific mean vector. In the diabetes classification problem, $\mu_k$ is a vector of means of all the predictors (age, ped, bmi, skin, bp, glu, npreg).
+
+$\Sigma$ is a covariance matrix, that is common to all classes. It is the pxp covariance matrix of $X$.
+
+$f_k(x)$ is the density function of $X$ for the k'th class. That is, it has a large value if there is a high probability that
+an observation in the kth class has $X\approx x$.
 
 ### ii)
 ```{r linear-/quadretic discriminant analysis, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
@@ -311,15 +323,26 @@ conf_mat = create_confusion_matrix(unlist(pred_qda[1]), test$diabetes)
 conf_mat
 
 ```
-#### TODO: Explain difference between the models.
+QDA is like LDA except that every class has its own covariance matrix, $\Sigma_k$, and not a common one, $\Sigma$ as is the case for
+LDA.
 
 ## C)
 
 ### i)
-#### TODO: Explain how a new observation is classified.
+The KNN classifier classifies a new observation by first finding its k closest points in the training data,
+then it estimates the conditional probability for class j as the fraction of the k points that are of class j.
+There are different metrics for "closeness". Exampel of common ones are: euclidian distance, cosine distance and manhatan distance.
+More formally:
+
+$Pr(\mathbf{Y}=j|\mathbf{X}=\mathbf{x}_0)=\frac{1}{K}\sum_{i\epsilon N} I(\mathbf{y}_i=j)$
+
+where $I(x)$ is 1 if $\mathbf{x}$ is true and 0 if $\mathbf{x}$ is false and $N$ is the set of k closest points.
+The final classification for the new variable is the most occuring class among its neighbours.
 
 ### ii)
-#### TODO: Explain how to choose the tuning parameter.
+It is possible to choose the tuning parameter, k, by using cross validation and see which value of k the
+validation loss is the lowest.
+
 
 ### iii)
 ```{r knn, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
@@ -350,6 +373,10 @@ roc.log_reg <- roc(response = test$diabetes, predictor = pred_log_reg, plot=FALS
 roc.lda <- roc(response = test$diabetes, predictor = pred_lda$posterior[,2], plot=FALSE)
 roc.qda <- roc(response = test$diabetes, predictor = pred_qda$posterior[,2], plot=FALSE)
 roc.knn <- roc(response = test$diabetes, predictor = prob_knn_adj, plot=FALSE)
+auc(roc.log_reg)
+auc(roc.lda)
+auc(roc.qda)
+auc(roc.knn)
 
 plot(roc.log_reg, main="ROC", col="red")
 plot(roc.lda, add=TRUE, col="green")
@@ -359,9 +386,10 @@ legend('topright', c("log_reg","lda", "qda", "knn"),
        lty=1, col=c('red', 'green', 'blue',' black'), bty='n', cex=.75)
 ```
 
-### TODO: Which model performs better?
-### TODO: Which model is interpretable and performs well?
-
+From the calculated AUC we see that the Linear Discriminant Analysis performs the best.
+If the task was to create an interpretable model, we would have chosen the logistic regression as it
+it more interpretable than the other models presented in this case. Additionally it performed second best,
+not far behind Linear Discriminant Analysis.
 
 
 # Problem 4
