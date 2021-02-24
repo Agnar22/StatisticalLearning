@@ -1,6 +1,9 @@
 ---
 title: "CompulsoryExercise_1"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -18,7 +21,6 @@ library(pROC)
 library(knitr)
 library(dplyr)
 library(ggplot2)
-library(GGally)
 library(MASS)
 library(boot)
 ```
@@ -328,7 +330,7 @@ legend('topright', c("log_reg","lda", "qda", "knn"),
 ### TODO: Which model is interpretable and performs well?
 
 
-<!--
+
 # Problem 4
 
 ## A)
@@ -339,7 +341,7 @@ $CV = \frac{1}{N}\sum^N_{i=1}(\frac{y_i - \hat{y}_i}{1-h_i})^2$, where $h_i=X^T_
 The estimate of $\beta$ is given by
 $\hat{\beta_i}=(X^T_{(-i)}X_{(-i)})X_{(-i)}Y$
 
-This gives us that $y_i-\hat{y}_i = y_i - x^T_{(-i)\hat{\beta_i}$
+This gives us that $y_i-\hat{y}_i = y_i - x^T_{(-i)}\hat{\beta_i}$
 
 We know that $X^T_{(-i)}X_{(-i)}=(X^TX−x_{i}x^T_i)$
 We can then use the Sherman Morrison formula, to find $(X^T_{(-1)}X_{(-1)})^{-1} = (X^TX)^{−1}+\frac{(X^TX)^{−1}x_{i}x^T_{i}(X^TX)^{−1}}{1−h_i}$
@@ -347,7 +349,8 @@ We can then use the Sherman Morrison formula, to find $(X^T_{(-1)}X_{(-1)})^{-1}
 We can use this to find $\hat{\beta}$
 
 $$\hat{\beta}_i 
-= ((X^TX)^{−1}+\frac{(X^TX)^{−1}x_{i}x^T_{i}(X^TX)^{−1}}{1−h_i})(X^TY-x_iy_i)
+= ((X^TX)^{−1}+\frac{(X^TX)^{−1}x_{i}x^T_{i}(X^TX)^{−1}}{1−h_i})(X^TY-x_iy_i)$$
+$$
 = \hat{\beta} - (\frac{(X^TX)^{−1}x_{i}}{1−h_i})(y_i(1-h_i)-x^T_i\hat{\beta}+h_iy_i)
 =\hat{\beta}-(X^TX)^{-1}x_i\frac{y_i - \hat{y}_i}{1-h_i}
 $$
@@ -356,14 +359,17 @@ Therefore we get,
 
 $$
 y_i - \hat{y}_i = y_i-x^T_i\hat{\beta} = y_i-x^T_i(\hat{\beta}-(X^TX)^{-1}x_i\frac{y_i - \hat{y}_i}{1-h_i}) 
-= y_i - \hat{y}_i \ h_i \frac{y_i - \hat{y}_i}{1-h_i}
+$$
+$$y_i - \hat{y}_i \ h_i \frac{y_i - \hat{y}_i}{1-h_i}
 = \frac{y_i - \hat{y}_i}{1-h_i}
 $$
+This concludes the proof and shows that $CV = \frac{1}{N}\sum^N_{i=1}(\frac{y_i - \hat{y}_i}{1-h_i})^2$
+
 
 ## B)
 
 1. False
-2. False
+2. True
 3. ?
 4. False
 
@@ -379,24 +385,38 @@ rsquared <- function(data, indices) {
   return(summary(fit)$r.square)
 }
 
-rsquared(d.bodyfat, nrow(d.bodyfat))
+rsquared(d.bodyfat)
 ```
 
 The R^2 for a linear regression model is 0.5803
 
 ## B)
-```{r logistic regression 5, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+
+### i)
+```{r problem 5 bootstrapping, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 set.seed(4268)
 
 # bootstrapping with 1000 replications
 results <- boot(data=d.bodyfat, statistic=rsquared,
-                R=1000, formula=bmi_formula)
+                R=1000)
+```
+### ii)
 
+```{r problem 5 bootstrap plot, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 # view results
-results
 plot(results)
+
+```
+
+### iii)
+```{r problem 5 std, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+# standard error
+apply(results$t, 2, sd)
 
 # get 95% confidence interval
 boot.ci(results, type="bca")
 ```
--->
+
+### iv)
+
+This confidence interval tells us that there are a 95% probability that the interval will contain the true R2 value. 

@@ -6,7 +6,7 @@
 #install.packages("class")
 #install.packages("pROC")
 #install.packages("plotROC")
-#install.packages("caret")
+install.packages("caret")
 #install.packages("dplyr")
 
 library(ggplot2)
@@ -218,9 +218,7 @@ number_of_deceased_and_non_deceased_in_France_for_each_sex <- filter(d.corona, d
   summarise(amount = n()) %>%
   arrange(desc(amount)) 
 
-
-#Linear regression
-
+## B)
 train_ID = sample(1:nrow(d.corona), nrow(d.corona)/(3/2))
 train_data = d.corona[train_ID, ]
 test_data = d.corona[-train_ID, ]
@@ -273,6 +271,7 @@ odds <- exp(10*coefficients(model)[2])
 # C.
 
 # Is age a greater risk factor for males than for females?
+anova(model, test = "Chisq")
 
 # Is age a greater risk factor for the French population than for the Indonesian population?
 
@@ -304,6 +303,8 @@ sens_qda <- qda_conf[2,1] / (sum(qda_conf[2,]))
 
 
 # Problem 4
+
+CV
 
 
 
