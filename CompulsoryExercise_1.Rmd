@@ -370,9 +370,10 @@ legend('topright', c("log_reg","lda", "qda", "knn"),
        lty=1, col=c('red', 'green', 'blue',' black'), bty='n', cex=.75)
 ```
 
-### TODO: Which model performs better?
-### TODO: Which model is interpretable and performs well?
-
+From the calculated AUC we see that the Linear Discriminant Analysis performs the best.
+If the task was to create an interpretable model, we would have chosen the logistic regression as it
+it more interpretable than the other models presented in this case. Additionally it performed second best,
+not far behind Linear Discriminant Analysis.
 
 
 # Problem 4
