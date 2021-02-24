@@ -105,9 +105,7 @@ ggplot(dfAll) + geom_line(aes(x = lambda, y = exp_mse), color = "blue") +
 )
 ```
 
-### TODO: Fill in exp_mse and find value of lambda that minimizes mse.
-### TODO: Comment on what we see.
-
+From the plot we see that the value of $\lambda$ that minimizes the expected mse is 0.993988.
 
 # Problem 2
 
