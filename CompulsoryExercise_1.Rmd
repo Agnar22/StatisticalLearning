@@ -283,7 +283,13 @@ conf_mat
 ## C)
 
 ### i)
-#### TODO: Explain how a new observation is classified.
+The KNN classifier classifies a new observation by first finding its k closest points in the training data,
+then it estimates the conditional probability for class j as the fraction of the k points that are of class j.
+More formally:
+
+$Pr(\mathbf{Y}=j|\mathbf{X}=\mathbf{x}_0)=\frac{1}{K}\sum_{i\epsilon N} I(\mathbf{y}_i=j)$
+
+where $I(x)$ is 1 if $\mathbf{x}$ is true and 0 if $\mathbf{x}$ is false and $N$ is the set of k closest points.
 
 ### ii)
 #### TODO: Explain how to choose the tuning parameter.
