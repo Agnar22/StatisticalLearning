@@ -312,7 +312,8 @@ conf_mat = create_confusion_matrix(unlist(pred_qda[1]), test$diabetes)
 conf_mat
 
 ```
-#### TODO: Explain difference between the models.
+QDA is like LDA except that every class has its own covariance matrix, $\Sigma_k$, and not a common one, $\Sigma$ as is the case for
+LDA.
 
 ## C)
 
@@ -361,6 +362,10 @@ roc.log_reg <- roc(response = test$diabetes, predictor = pred_log_reg, plot=FALS
 roc.lda <- roc(response = test$diabetes, predictor = pred_lda$posterior[,2], plot=FALSE)
 roc.qda <- roc(response = test$diabetes, predictor = pred_qda$posterior[,2], plot=FALSE)
 roc.knn <- roc(response = test$diabetes, predictor = prob_knn_adj, plot=FALSE)
+auc(roc.log_reg)
+auc(roc.lda)
+auc(roc.qda)
+auc(roc.knn)
 
 plot(roc.log_reg, main="ROC", col="red")
 plot(roc.lda, add=TRUE, col="green")
