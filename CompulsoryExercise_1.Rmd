@@ -119,25 +119,27 @@ id <- "1yYlEl5gYY3BEtJ4d7KWaFGIOEweJIn__" # google file ID
 d.corona <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", id),header=T)
 summary(d.corona)
 
-# Number of deceased and non-deceased
-deceased <- nrow(filter(d.corona, d.corona$deceased == "1"))
-non_deceased <- nrow(filter(d.corona, d.corona$deceased == "0"))
+# Number of deceased
+nrow(filter(d.corona, d.corona$deceased == "1"))
+
+#Number of non-deceased
+nrow(filter(d.corona, d.corona$deceased == "0"))
 
 # Number of males and females for each country
-number_of_males_and_females <- d.corona %>%
+d.corona %>%
   group_by(country, sex) %>%
   summarise(amount = n()) %>%
   arrange(desc(amount))
 
 
 # The number of deceased and non-deceased for each sex
-number_of_deceased_and_non_deceased <- d.corona %>%
+d.corona %>%
   group_by(deceased, sex) %>%
   summarise(amount = n()) %>%
   arrange(desc(amount)) 
 
 # The number of deceased and non-deceased in France, separate for each sex.
-number_of_deceased_and_non_deceased_in_France_for_each_sex <- filter(d.corona, d.corona$country == "France") %>%
+filter(d.corona, d.corona$country == "France") %>%
   group_by(deceased, sex) %>%
   summarise(amount = n()) %>%
   arrange(desc(amount)) 
@@ -153,7 +155,6 @@ test_data = d.corona[-train_ID, ]
 
 model <- glm(deceased ~ age + country + sex, family = binomial, data=train_data)
 summary(model)
-coefficients(model)
 ```
 
 ### i). What is the probability to die of covid for a male age 75 living in Korea?
@@ -161,27 +162,48 @@ coefficients(model)
 data_point <- data.frame("age" = 75, "sex" = "male","country" = "Korea")
 predict(model, newdata = data_point, type = "response")
 ```
-There are a 10.01 % chance of a 75 year-old korean male dying of covid. 
+
 
 ### ii). Is there evidence that males have higher probability to die than females?
 Yes, the summary of the regression model shows that there are a higher probability for males to die than females.
-There is statistically significant evidence that males have a higher probability of dying of covid. 
+As we can see from the summary of the model, the p-value are significantly close to zero. Therefore we can reject the null hypothesis that the coefficient is equalt to zero. 
+We can then conclude that the coefficient for male are a meaningful addition to the model and changes in the predictor's value are related to changes in the response variable..
   
 ### iii). Is there evidence that the country of residence has an influence on the probability to decease?
-Yes, there is evidence that the country of residence has an impact on the probability to decease. There is a big difference between in the probability of decease in Korea, Japan, and Indonesia. Indonesia has a much higher probability of decease than the rest. 
-There is evidence that for France and Indonesia, the country of residence does not impace the probability as much. While for Korea and Japan it has a bigger influence. This is due to the estimate of the dummy variables for France and Indonesia has a larger Pr(>|z|). 
+Yes, there is evidence that the country of residence has an impact on the probability to decease. There is a big difference between the p-value for the coefficients of Korea, Japan, and Indonesia. 
+Indonesia has a much higher p-value than the rest. Since the p-value is so high, we can not reject the null hypothesis. The null hypothesis tests if the coefficient is equal to zero. 
+In other words, if the coefficients has small impact on the model.
+This is evidence that for France and Indonesia, the country of residence does not impact the probability of decease that much. 
+While for Korea and Japan it has a bigger influence. 
 
 ### iv). Quantify how the odds to die changes when someone with otherwise identical covariates is 10 years older than another person.
 ```{r problem 2 odds, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
 summary(model)
-odds <- exp(10*coefficients(model)[2])
+exp(10*coefficients(model)[2])
 ```
+
 
 ## C)
 
 ### i). Is age a greater risk factor for males than for females?
+```{r problem 2 greater risk, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+fit <- glm(deceased ~ age * sex + country, data=d.corona)
+summary(fit)
+anova(fit, test="Chisq")
+```
+The F-test shows us that there are no evidence that the interaction term between age and sex is needed. The p-values is not statistically significant, and we can therefore not reject the null hypothesis. 
+We can therefore conclude that age is not a greater risk for males than for females. 
 
 ### ii). Is age a greater risk factor for the French population than for the Indonesian population?
+
+```{r problem 2 greater risk country, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
+fit.lm <- glm(deceased ~ age * country + sex, data=d.corona)
+summary(fit.lm)
+anova(fit.lm, test = "Chisq")
+```
+As the F-test shows evidence that the interaction term between country and age does matter, and the p-values is statistically significant. But the coefficient between age:countryindonesia and intercept (France) is quite low, that it won't make a huge impact on the risk difference between the countries. Therefore we can conclude that the age is not a greater risk for the French population than for the Indonesian population.
+
+
 
 ## D)
 
@@ -198,29 +220,40 @@ create_confusion_matrix <- function(pred, target) {
 
 conf_matrix <- create_confusion_matrix(unlist(lda_pred[1]), test_data$deceased)
 sum(conf_matrix)
-null_rate <- (conf_matrix[2,1] + conf_matrix[2,2]) / sum(conf_matrix) 
+# Null rate
+(conf_matrix[1,2] + conf_matrix[2,2]) / sum(conf_matrix) 
 ```
-### i). The "null rate" for misclassification is 5.22%, because this is the proportion of deaths among all cases in the dataset. 
+### i). 
+**The "null rate" for misclassification is 5.22%, because this is the proportion of deaths among all cases in the dataset.**
 False
 
-### ii). LDA is not a very useful method for this dataset.
+### ii).
+**LDA is not a very useful method for this dataset.**
 False
 
-### iii). LDA has a specificity of 1.
+### iii). 
+**LDA has a specificity of 1.**
 ```{r problem 2 specificity, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
-specificity <- conf_matrix[1,1] / (conf_matrix[1,1] + conf_matrix[1,2])
+conf_matrix[1,1] / (conf_matrix[1,1] + conf_matrix[1,2])
 ```
 False
 
-### iv). QDA has a lower sensitivity to classify deceased compared to LDA.
+### iv). 
+**QDA has a lower sensitivity to classify deceased compared to LDA.**
 ```{r problem 2 qda, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
-qda_model <- qda(deceased ~ ., data=d.corona)
-qda_pred <- predict(qda_model, newdata=test_data[-1])
+qda.fit <- qda(deceased ~ age + country + sex, data=d.corona)
+qda_pred <- predict(qda.fit, newdata=test_data[-1])
 qda_conf <- create_confusion_matrix(unlist(qda_pred[1]), test_data$deceased)
-sens_lda <- conf_matrix[2,1] / (sum(conf_matrix[2,]))
-sens_qda <- qda_conf[2,1] / (sum(qda_conf[2,]))
+conf_matrix
+# Sensitivity for LDA
+lda_sens <- conf_matrix[2,1] / (conf_matrix[2,1] + conf_matrix[2,2])
+# Sensitivity for QDA
+qda_sens <- qda_conf[2,1] / (sum(qda_conf[2,]))
+
+qda_sens < lda_sens
 ```
-False, they are equal
+False
+
 
 # Task 3
 
