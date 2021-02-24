@@ -259,7 +259,14 @@ conf_mat[1,1]/(conf_mat[1,2]+conf_mat[1,1])
 ## B)
 
 ### i)
-#### TODO: Explain what the coefficients are.
+$\pi_k$ denotes the prior probability that an observation belongs to the k'th class. In this case $\pi_0$ and $\pi_1$ is the proportion of people in the training set without and with diabets, respectively.
+
+$\mu_k$ is a class specific mean vector. In the diabetes classification problem, $\mu_k$ is a vector of means of all the predictors (age, ped, bmi, skin, bp, glu, npreg).
+
+$\Sigma$ is a covariance matrix, that is common to all classes. It is the pxp covariance matrix of $X$.
+
+$f_k(x)$ is the density function of $X$ for the k'th class. That is, it has a large value if there is a high probability that
+an observation in the kth class has $X\approx x$.
 
 ### ii)
 ```{r linear-/quadretic discriminant analysis, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
