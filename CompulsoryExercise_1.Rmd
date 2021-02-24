@@ -26,6 +26,12 @@ library(boot)
 
 # Task 1
 
+## A)
+
+$\text{E}[\widetilde{\boldsymbol{\beta}}]=\text{E}[(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T{\bf Y}]=(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\text{E}[\mathbf{X}^T{\bf Y}]=(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T\text{E}[{\bf Y}]=(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T\text{E}[\mathbf{X}\boldsymbol{\beta}+\varepsilon]=(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T\mathbf{X}\boldsymbol{\beta}$
+
+$Cov(\hat{\boldsymbol\beta})=Cov((X^T X+\lambda\mathbf{I})^{-1}X^T Y)=(X^TX+\lambda\mathbf{I})^{-1}X^T Cov(Y)((X^TX+\lambda\mathbf{I})^{-1}X^T)^T=(X^TX)^{-1}X^T \sigma^2  I ((X^TX+\lambda\mathbf{I})^{-1}X^T)^T=\sigma^2 (X^TX+\lambda\mathbf{I})^{-1} \\$
+
 ## D)
 
 Load the data.
