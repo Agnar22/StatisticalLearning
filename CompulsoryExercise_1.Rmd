@@ -32,7 +32,21 @@ library(boot)
 
 $\text{E}[\widetilde{\boldsymbol{\beta}}]=\text{E}[(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T{\bf Y}]=(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\text{E}[\mathbf{X}^T{\bf Y}]=(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T\text{E}[{\bf Y}]=(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T\text{E}[\mathbf{X}\boldsymbol{\beta}+\varepsilon]=(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T\mathbf{X}\boldsymbol{\beta}$
 
-$Cov(\hat{\boldsymbol\beta})=Cov((X^T X+\lambda\mathbf{I})^{-1}X^T Y)=(X^TX+\lambda\mathbf{I})^{-1}X^T Cov(Y)((X^TX+\lambda\mathbf{I})^{-1}X^T)^T=(X^TX)^{-1}X^T \sigma^2  I ((X^TX+\lambda\mathbf{I})^{-1}X^T)^T=\sigma^2 (X^TX+\lambda\mathbf{I})^{-1} \\$
+$Cov(\hat{\boldsymbol\beta})=Cov((X^T X+\lambda\mathbf{I})^{-1}X^T Y)=(X^TX+\lambda\mathbf{I})^{-1}X^T Cov(Y)((X^TX+\lambda\mathbf{I})^{-1}X^T)^T=(X^TX+\lambda\mathbf{I})^{-1}X^T \sigma^2  I ((X^TX+\lambda\mathbf{I})^{-1}X^T)^T\\$
+
+## B)
+
+Let: $\widetilde{f}(\mathbf{x}_0)=\mathbf{x}_0^T \widetilde{\boldsymbol{\beta}}$
+
+Then:
+$E(\boldsymbol{x}_0^T\hat{\boldsymbol{\beta}}) = \boldsymbol{x}_0^T E(\hat{\boldsymbol{\beta}}) = \boldsymbol{x}_0^T (\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T\mathbf{X}\boldsymbol{\beta}$
+
+Additionally:
+$\operatorname{Var}(\boldsymbol{x}_0^T\hat{\boldsymbol{\beta}}) = \boldsymbol{x}_0^T \operatorname{Var}(\hat{\boldsymbol{\beta}}) \boldsymbol{x}_0=\boldsymbol{x}_0^T (X^TX+\lambda\mathbf{I})^{-1}X^T \sigma^2  I ((X^TX+\lambda\mathbf{I})^{-1}X^T)^T \boldsymbol{x}_0$
+
+## C)
+
+
 
 ## D)
 
