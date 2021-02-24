@@ -1,0 +1,1196 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={CompulsoryExercise\_1},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{CompulsoryExercise\_1}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\hypertarget{import-neccessary-packages}{%
+\subsection{Import neccessary
+packages}\label{import-neccessary-packages}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(caret)}
+\FunctionTok{library}\NormalTok{(MASS)}
+\FunctionTok{library}\NormalTok{(class)}
+\FunctionTok{library}\NormalTok{(pROC)}
+\FunctionTok{library}\NormalTok{(knitr)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(MASS)}
+\FunctionTok{library}\NormalTok{(boot)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{task-1}{%
+\section{Task 1}\label{task-1}}
+
+\hypertarget{a}{%
+\subsection{A)}\label{a}}
+
+\(\text{E}[\widetilde{\boldsymbol{\beta}}]=\text{E}[(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T{\bf Y}]=(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\text{E}[\mathbf{X}^T{\bf Y}]=(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T\text{E}[{\bf Y}]=(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T\text{E}[\mathbf{X}\boldsymbol{\beta}+\varepsilon]=(\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I})^{-1}\mathbf{X}^T\mathbf{X}\boldsymbol{\beta}\)
+
+\(Cov(\hat{\boldsymbol\beta})=Cov((X^T X+\lambda\mathbf{I})^{-1}X^T Y)=(X^TX+\lambda\mathbf{I})^{-1}X^T Cov(Y)((X^TX+\lambda\mathbf{I})^{-1}X^T)^T=(X^TX)^{-1}X^T \sigma^2 I ((X^TX+\lambda\mathbf{I})^{-1}X^T)^T=\sigma^2 (X^TX+\lambda\mathbf{I})^{-1} \\\)
+
+\hypertarget{d}{%
+\subsection{D)}\label{d}}
+
+Load the data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{id }\OtherTok{\textless{}{-}} \StringTok{"1X\_8OKcoYbng1XvYFDirxjEWr7LtpNr1m"}  \CommentTok{\# google file ID}
+\NormalTok{values }\OtherTok{\textless{}{-}} \FunctionTok{dget}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"https://docs.google.com/uc?id=\%s\&export=download"}\NormalTok{, id))}
+\NormalTok{X }\OtherTok{=}\NormalTok{ values}\SpecialCharTok{$}\NormalTok{X}
+\NormalTok{x0 }\OtherTok{=}\NormalTok{ values}\SpecialCharTok{$}\NormalTok{x0}
+\NormalTok{beta }\OtherTok{=}\NormalTok{ values}\SpecialCharTok{$}\NormalTok{beta}
+\NormalTok{sigma }\OtherTok{=}\NormalTok{ values}\SpecialCharTok{$}\NormalTok{sigma}
+\end{Highlighting}
+\end{Shaded}
+
+Display squared bias.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bias }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(lambda, X, x0, beta) \{}
+\NormalTok{  p }\OtherTok{=} \FunctionTok{ncol}\NormalTok{(X)}
+\NormalTok{  value }\OtherTok{=}\NormalTok{ (}\FunctionTok{t}\NormalTok{(x0) }\SpecialCharTok{\%*\%} \FunctionTok{solve}\NormalTok{((}\FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ X }\SpecialCharTok{+}\NormalTok{ lambda }\SpecialCharTok{*} \FunctionTok{diag}\NormalTok{(p))) }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ X }\SpecialCharTok{\%*\%}\NormalTok{ beta }\SpecialCharTok{{-}} \FunctionTok{t}\NormalTok{(x0) }\SpecialCharTok{\%*\%}\NormalTok{ beta ) }\SpecialCharTok{\^{}} \DecValTok{2}
+  \FunctionTok{return}\NormalTok{(value)}
+\NormalTok{\}}
+\NormalTok{lambdas }\OtherTok{=} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{, }\AttributeTok{length.out =} \DecValTok{500}\NormalTok{)}
+\NormalTok{BIAS }\OtherTok{=} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\FunctionTok{length}\NormalTok{(lambdas))}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(lambdas)) BIAS[i] }\OtherTok{=} \FunctionTok{bias}\NormalTok{(lambdas[i], X, x0, beta)}
+\NormalTok{dfBias }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{lambdas =}\NormalTok{ lambdas, }\AttributeTok{bias =}\NormalTok{ BIAS)}
+\FunctionTok{ggplot}\NormalTok{(dfBias, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ lambdas, }\AttributeTok{y =}\NormalTok{ bias)) }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{xlab}\NormalTok{(}\FunctionTok{expression}\NormalTok{(lambda)) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\FunctionTok{expression}\NormalTok{(bias}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{CompulsoryExercise_1_files/figure-latex/squared bias-1.pdf}
+
+From the figure above, it is clear that the bias increases when the
+lambda increases. This is natural, as the lambda is regularising
+hyperparameter: larger values of lambda constrains the \(\beta\) values
+more. We do also see that the squared bias starts to decreas when
+\(\lambda\) is approximately \(0.1 < \lambda < 0.45\). The cause for
+this is that the bias is actually negative when \(\lambda < 0.45\), so
+the bias is actually increasing for that interval thus the squared value
+is decreasing.
+
+\hypertarget{e}{%
+\subsection{E)}\label{e}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{variance }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(lambda, X, x0, sigma) \{}
+\NormalTok{  p }\OtherTok{=} \FunctionTok{ncol}\NormalTok{(X)}
+\NormalTok{  inv }\OtherTok{=} \FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ X }\SpecialCharTok{+}\NormalTok{ lambda }\SpecialCharTok{*} \FunctionTok{diag}\NormalTok{(p))}
+\NormalTok{  value }\OtherTok{=}\NormalTok{ sigma }\SpecialCharTok{*}\NormalTok{ sigma }\SpecialCharTok{*} \FunctionTok{t}\NormalTok{(x0) }\SpecialCharTok{\%*\%} \FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ X }\SpecialCharTok{+}\NormalTok{ lambda }\SpecialCharTok{*} \FunctionTok{diag}\NormalTok{(p)) }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ X }\SpecialCharTok{\%*\%} \FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ X }\SpecialCharTok{+}\NormalTok{ lambda }\SpecialCharTok{*} \FunctionTok{diag}\NormalTok{(p)) }\SpecialCharTok{\%*\%}\NormalTok{ x0}
+  \FunctionTok{return}\NormalTok{(value)}
+\NormalTok{\}}
+\NormalTok{lambdas }\OtherTok{=} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{, }\AttributeTok{length.out =} \DecValTok{500}\NormalTok{)}
+\NormalTok{VAR }\OtherTok{=} \FunctionTok{rep}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\FunctionTok{length}\NormalTok{(lambdas))}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(lambdas)) VAR[i] }\OtherTok{=} \FunctionTok{variance}\NormalTok{(lambdas[i], X, x0, sigma)}
+\NormalTok{dfVar }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{lambdas =}\NormalTok{ lambdas, }\AttributeTok{var =}\NormalTok{ VAR)}
+\FunctionTok{ggplot}\NormalTok{(dfVar, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ lambdas, }\AttributeTok{y =}\NormalTok{ var)) }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"green4"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{xlab}\NormalTok{(}\FunctionTok{expression}\NormalTok{(lambda)) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\StringTok{"variance"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{CompulsoryExercise_1_files/figure-latex/variance-1.pdf}
+
+From the figure above, it is clear that the variance decreases when the
+lambda increases. This is natural, as the lambda is regularising
+hyperparameter: larger values of lambda constrains the \(\beta\) values
+more, causing less variance.
+
+\hypertarget{f}{%
+\subsection{F)}\label{f}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{exp\_mse }\OtherTok{=}\NormalTok{ BIAS }\SpecialCharTok{+}\NormalTok{ VAR }\SpecialCharTok{+}\NormalTok{ sigma }\SpecialCharTok{*}\NormalTok{ sigma}
+\NormalTok{lambdas[}\FunctionTok{which.min}\NormalTok{(exp\_mse)]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.993988
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dfAll }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{lambda =}\NormalTok{ lambdas, }\AttributeTok{bias =}\NormalTok{ BIAS, }\AttributeTok{var =}\NormalTok{ VAR, }\AttributeTok{exp\_mse =}\NormalTok{ exp\_mse)}
+\FunctionTok{ggplot}\NormalTok{(dfAll) }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ lambda, }\AttributeTok{y =}\NormalTok{ exp\_mse), }\AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ lambda, }\AttributeTok{y =}\NormalTok{ bias), }\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ lambda, }\AttributeTok{y =}\NormalTok{ var), }\AttributeTok{color =} \StringTok{"green4"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\FunctionTok{expression}\NormalTok{(lambda)) }\SpecialCharTok{+}
+  \FunctionTok{ylab}\NormalTok{(}\FunctionTok{expression}\NormalTok{(}\FunctionTok{E}\NormalTok{(MSE))}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{CompulsoryExercise_1_files/figure-latex/expected mse-1.pdf}
+
+\hypertarget{todo-fill-in-exp_mse-and-find-value-of-lambda-that-minimizes-mse.}{%
+\subsubsection{TODO: Fill in exp\_mse and find value of lambda that
+minimizes
+mse.}\label{todo-fill-in-exp_mse-and-find-value-of-lambda-that-minimizes-mse.}}
+
+\hypertarget{todo-comment-on-what-we-see.}{%
+\subsubsection{TODO: Comment on what we
+see.}\label{todo-comment-on-what-we-see.}}
+
+\hypertarget{problem-2}{%
+\section{Problem 2}\label{problem-2}}
+
+\hypertarget{a-1}{%
+\subsection{A)}\label{a-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# read file}
+\NormalTok{id }\OtherTok{\textless{}{-}} \StringTok{"1yYlEl5gYY3BEtJ4d7KWaFGIOEweJIn\_\_"} \CommentTok{\# google file ID}
+\NormalTok{d.corona }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"https://docs.google.com/uc?id=\%s\&export=download"}\NormalTok{, id),}\AttributeTok{header=}\NormalTok{T)}
+\FunctionTok{summary}\NormalTok{(d.corona)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     deceased           sex                 age          country         
+##  Min.   :0.00000   Length:2010        Min.   : 2.00   Length:2010       
+##  1st Qu.:0.00000   Class :character   1st Qu.:29.00   Class :character  
+##  Median :0.00000   Mode  :character   Median :51.00   Mode  :character  
+##  Mean   :0.05224                      Mean   :50.01                     
+##  3rd Qu.:0.00000                      3rd Qu.:67.00                     
+##  Max.   :1.00000                      Max.   :99.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Number of deceased}
+\FunctionTok{nrow}\NormalTok{(}\FunctionTok{filter}\NormalTok{(d.corona, d.corona}\SpecialCharTok{$}\NormalTok{deceased }\SpecialCharTok{==} \StringTok{"1"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 105
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Number of non{-}deceased}
+\FunctionTok{nrow}\NormalTok{(}\FunctionTok{filter}\NormalTok{(d.corona, d.corona}\SpecialCharTok{$}\NormalTok{deceased }\SpecialCharTok{==} \StringTok{"0"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1905
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Number of males and females for each country}
+\NormalTok{d.corona }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(country, sex) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{amount =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(amount))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 8 x 3
+## # Groups:   country [4]
+##   country   sex    amount
+##   <chr>     <chr>   <int>
+## 1 Korea     female    879
+## 2 Korea     male      654
+## 3 japan     male      174
+## 4 japan     female    120
+## 5 France    female     60
+## 6 France    male       54
+## 7 indonesia male       39
+## 8 indonesia female     30
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The number of deceased and non{-}deceased for each sex}
+\NormalTok{d.corona }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(deceased, sex) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{amount =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(amount)) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4 x 3
+## # Groups:   deceased [2]
+##   deceased sex    amount
+##      <int> <chr>   <int>
+## 1        0 female   1046
+## 2        0 male      859
+## 3        1 male       62
+## 4        1 female     43
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The number of deceased and non{-}deceased in France, separate for each sex.}
+\FunctionTok{filter}\NormalTok{(d.corona, d.corona}\SpecialCharTok{$}\NormalTok{country }\SpecialCharTok{==} \StringTok{"France"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(deceased, sex) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{amount =} \FunctionTok{n}\NormalTok{()) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(amount)) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4 x 3
+## # Groups:   deceased [2]
+##   deceased sex    amount
+##      <int> <chr>   <int>
+## 1        0 female     55
+## 2        0 male       43
+## 3        1 male       11
+## 4        1 female      5
+\end{verbatim}
+
+\hypertarget{b}{%
+\subsection{B)}\label{b}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{4268}\NormalTok{)}
+\NormalTok{train\_ID }\OtherTok{=} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(d.corona), }\FunctionTok{nrow}\NormalTok{(d.corona)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{3}\SpecialCharTok{/}\DecValTok{2}\NormalTok{))}
+\NormalTok{train\_data }\OtherTok{=}\NormalTok{ d.corona[train\_ID, ]}
+\NormalTok{test\_data }\OtherTok{=}\NormalTok{ d.corona[}\SpecialCharTok{{-}}\NormalTok{train\_ID, ]}
+
+
+\NormalTok{model }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(deceased }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ country }\SpecialCharTok{+}\NormalTok{ sex, }\AttributeTok{family =}\NormalTok{ binomial, }\AttributeTok{data=}\NormalTok{train\_data)}
+\FunctionTok{summary}\NormalTok{(model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = deceased ~ age + country + sex, family = binomial, 
+##     data = train_data)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -0.9728  -0.3425  -0.2605  -0.2022   3.1871  
+## 
+## Coefficients:
+##                   Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)      -4.090094   0.574497  -7.119 1.08e-12 ***
+## age               0.028557   0.005959   4.792 1.65e-06 ***
+## countryindonesia -0.248126   0.638317  -0.389  0.69748    
+## countryjapan     -1.496359   0.516264  -2.898  0.00375 ** 
+## countryKorea     -0.903777   0.377749  -2.393  0.01673 *  
+## sexmale           0.760602   0.264211   2.879  0.00399 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 537.89  on 1339  degrees of freedom
+## Residual deviance: 492.28  on 1334  degrees of freedom
+## AIC: 504.28
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+\hypertarget{i.-what-is-the-probability-to-die-of-covid-for-a-male-age-75-living-in-korea}{%
+\subsubsection{i). What is the probability to die of covid for a male
+age 75 living in
+Korea?}\label{i.-what-is-the-probability-to-die-of-covid-for-a-male-age-75-living-in-korea}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data\_point }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\StringTok{"age"} \OtherTok{=} \DecValTok{75}\NormalTok{, }\StringTok{"sex"} \OtherTok{=} \StringTok{"male"}\NormalTok{,}\StringTok{"country"} \OtherTok{=} \StringTok{"Korea"}\NormalTok{)}
+\FunctionTok{predict}\NormalTok{(model, }\AttributeTok{newdata =}\NormalTok{ data\_point, }\AttributeTok{type =} \StringTok{"response"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         1 
+## 0.1099293
+\end{verbatim}
+
+\hypertarget{ii.-is-there-evidence-that-males-have-higher-probability-to-die-than-females}{%
+\subsubsection{ii). Is there evidence that males have higher probability
+to die than
+females?}\label{ii.-is-there-evidence-that-males-have-higher-probability-to-die-than-females}}
+
+Yes, the summary of the regression model shows that there are a higher
+probability for males to die than females. As we can see from the
+summary of the model, the p-value are significantly close to zero.
+Therefore we can reject the null hypothesis that the coefficient is
+equalt to zero. We can then conclude that the coefficient for male are a
+meaningful addition to the model and changes in the predictor's value
+are related to changes in the response variable..
+
+\hypertarget{iii.-is-there-evidence-that-the-country-of-residence-has-an-influence-on-the-probability-to-decease}{%
+\subsubsection{iii). Is there evidence that the country of residence has
+an influence on the probability to
+decease?}\label{iii.-is-there-evidence-that-the-country-of-residence-has-an-influence-on-the-probability-to-decease}}
+
+Yes, there is evidence that the country of residence has an impact on
+the probability to decease. There is a big difference between the
+p-value for the coefficients of Korea, Japan, and Indonesia. Indonesia
+has a much higher p-value than the rest. Since the p-value is so high,
+we can not reject the null hypothesis. The null hypothesis tests if the
+coefficient is equal to zero. In other words, if the coefficients has
+small impact on the model. This is evidence that for France and
+Indonesia, the country of residence does not impact the probability of
+decease that much. While for Korea and Japan it has a bigger influence.
+
+\hypertarget{iv.-quantify-how-the-odds-to-die-changes-when-someone-with-otherwise-identical-covariates-is-10-years-older-than-another-person.}{%
+\subsubsection{iv). Quantify how the odds to die changes when someone
+with otherwise identical covariates is 10 years older than another
+person.}\label{iv.-quantify-how-the-odds-to-die-changes-when-someone-with-otherwise-identical-covariates-is-10-years-older-than-another-person.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = deceased ~ age + country + sex, family = binomial, 
+##     data = train_data)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -0.9728  -0.3425  -0.2605  -0.2022   3.1871  
+## 
+## Coefficients:
+##                   Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)      -4.090094   0.574497  -7.119 1.08e-12 ***
+## age               0.028557   0.005959   4.792 1.65e-06 ***
+## countryindonesia -0.248126   0.638317  -0.389  0.69748    
+## countryjapan     -1.496359   0.516264  -2.898  0.00375 ** 
+## countryKorea     -0.903777   0.377749  -2.393  0.01673 *  
+## sexmale           0.760602   0.264211   2.879  0.00399 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 537.89  on 1339  degrees of freedom
+## Residual deviance: 492.28  on 1334  degrees of freedom
+## AIC: 504.28
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{exp}\NormalTok{(}\DecValTok{10}\SpecialCharTok{*}\FunctionTok{coefficients}\NormalTok{(model)[}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      age 
+## 1.330526
+\end{verbatim}
+
+\hypertarget{c}{%
+\subsection{C)}\label{c}}
+
+\hypertarget{i.-is-age-a-greater-risk-factor-for-males-than-for-females}{%
+\subsubsection{i). Is age a greater risk factor for males than for
+females?}\label{i.-is-age-a-greater-risk-factor-for-males-than-for-females}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(deceased }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{*}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ country, }\AttributeTok{data=}\NormalTok{d.corona)}
+\FunctionTok{summary}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = deceased ~ age * sex + country, data = d.corona)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -0.22079  -0.06932  -0.04281  -0.01870   1.02133  
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       0.0592152  0.0269782   2.195  0.02828 *  
+## age               0.0009768  0.0002989   3.268  0.00110 ** 
+## sexmale          -0.0034560  0.0235702  -0.147  0.88344    
+## countryindonesia -0.0530393  0.0335716  -1.580  0.11429    
+## countryjapan     -0.0981284  0.0242630  -4.044 5.45e-05 ***
+## countryKorea     -0.0703969  0.0215554  -3.266  0.00111 ** 
+## age:sexmale       0.0006902  0.0004308   1.602  0.10929    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for gaussian family taken to be 0.04805944)
+## 
+##     Null deviance: 99.515  on 2009  degrees of freedom
+## Residual deviance: 96.263  on 2003  degrees of freedom
+## AIC: -387.87
+## 
+## Number of Fisher Scoring iterations: 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(fit, }\AttributeTok{test=}\StringTok{"Chisq"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model: gaussian, link: identity
+## 
+## Response: deceased
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##         Df Deviance Resid. Df Resid. Dev  Pr(>Chi)    
+## NULL                     2009     99.515              
+## age      1  1.89794      2008     97.617 3.295e-10 ***
+## sex      1  0.43091      2007     97.186 0.0027502 ** 
+## country  3  0.79965      2004     96.386 0.0008385 ***
+## age:sex  1  0.12335      2003     96.263 0.1091352    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+The F-test shows us that there are no evidence that the interaction term
+between age and sex is needed. The p-values is not statistically
+significant, and we can therefore not reject the null hypothesis. We can
+therefore conclude that age is not a greater risk for males than for
+females.
+
+\hypertarget{ii.-is-age-a-greater-risk-factor-for-the-french-population-than-for-the-indonesian-population}{%
+\subsubsection{ii). Is age a greater risk factor for the French
+population than for the Indonesian
+population?}\label{ii.-is-age-a-greater-risk-factor-for-the-french-population-than-for-the-indonesian-population}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit.lm }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(deceased }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{*}\NormalTok{ country }\SpecialCharTok{+}\NormalTok{ sex, }\AttributeTok{data=}\NormalTok{d.corona)}
+\FunctionTok{summary}\NormalTok{(fit.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = deceased ~ age * country + sex, data = d.corona)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -0.33116  -0.06569  -0.04432  -0.02355   1.00439  
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)          -0.1770675  0.0584394  -3.030  0.00248 ** 
+## age                   0.0048296  0.0008710   5.545 3.32e-08 ***
+## countryindonesia      0.2468372  0.0934680   2.641  0.00833 ** 
+## countryjapan          0.1612580  0.0684298   2.357  0.01854 *  
+## countryKorea          0.1548929  0.0598234   2.589  0.00969 ** 
+## sexmale               0.0300916  0.0099040   3.038  0.00241 ** 
+## age:countryindonesia -0.0051184  0.0016266  -3.147  0.00168 ** 
+## age:countryjapan     -0.0041953  0.0010562  -3.972 7.38e-05 ***
+## age:countryKorea     -0.0036422  0.0009056  -4.022 5.99e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for gaussian family taken to be 0.0477109)
+## 
+##     Null deviance: 99.515  on 2009  degrees of freedom
+## Residual deviance: 95.470  on 2001  degrees of freedom
+## AIC: -400.5
+## 
+## Number of Fisher Scoring iterations: 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(fit.lm, }\AttributeTok{test =} \StringTok{"Chisq"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model: gaussian, link: identity
+## 
+## Response: deceased
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##             Df Deviance Resid. Df Resid. Dev  Pr(>Chi)    
+## NULL                         2009     99.515              
+## age          1  1.89794      2008     97.617 2.842e-10 ***
+## country      3  0.76476      2005     96.852 0.0011186 ** 
+## sex          1  0.46581      2004     96.386 0.0017805 ** 
+## age:country  3  0.91691      2001     95.470 0.0002464 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+As the F-test shows evidence that the interaction term between country
+and age does matter, and the p-values is statistically significant. But
+the coefficient between age:countryindonesia and intercept (France) is
+quite low, that it won't make a huge impact on the risk difference
+between the countries. Therefore we can conclude that the age is not a
+greater risk for the French population than for the Indonesian
+population.
+
+\hypertarget{d-1}{%
+\subsection{D)}\label{d-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lda\_model }\OtherTok{\textless{}{-}} \FunctionTok{lda}\NormalTok{(deceased }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ country }\SpecialCharTok{+}\NormalTok{ sex, }\AttributeTok{data=}\NormalTok{d.corona)}
+\NormalTok{lda\_pred }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(lda\_model, }\AttributeTok{newdata=}\NormalTok{test\_data[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
+
+\NormalTok{create\_confusion\_matrix }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(pred, target) \{}
+\NormalTok{  confMat }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(pred, target)}
+  \FunctionTok{colnames}\NormalTok{(confMat) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"PRED FALSE"}\NormalTok{, }\StringTok{"PRED TRUE"}\NormalTok{)}
+  \FunctionTok{row.names}\NormalTok{(confMat) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"TARGET FALSE"}\NormalTok{, }\StringTok{"TARGET TRUE"}\NormalTok{)}
+  \FunctionTok{return}\NormalTok{(confMat)}
+\NormalTok{\}}
+
+\NormalTok{conf\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{create\_confusion\_matrix}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(lda\_pred[}\DecValTok{1}\NormalTok{]), test\_data}\SpecialCharTok{$}\NormalTok{deceased)}
+\FunctionTok{sum}\NormalTok{(conf\_matrix)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 670
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Null rate}
+\NormalTok{(conf\_matrix[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ conf\_matrix[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]) }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(conf\_matrix) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\hypertarget{i.-the-null-rate-for-misclassification-is-5.22-because-this-is-the-proportion-of-deaths-among-all-cases-in-the-dataset.}{%
+\subsubsection{i). The ``null rate'' for misclassification is 5.22\%,
+because this is the proportion of deaths among all cases in the
+dataset.}\label{i.-the-null-rate-for-misclassification-is-5.22-because-this-is-the-proportion-of-deaths-among-all-cases-in-the-dataset.}}
+
+False
+
+\hypertarget{ii.-lda-is-not-a-very-useful-method-for-this-dataset.}{%
+\subsubsection{ii). LDA is not a very useful method for this
+dataset.}\label{ii.-lda-is-not-a-very-useful-method-for-this-dataset.}}
+
+False
+
+\hypertarget{iii.-lda-has-a-specificity-of-1.}{%
+\subsubsection{iii). LDA has a specificity of
+1.}\label{iii.-lda-has-a-specificity-of-1.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conf\_matrix[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{] }\SpecialCharTok{/}\NormalTok{ (conf\_matrix[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ conf\_matrix[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9447761
+\end{verbatim}
+
+False
+
+\hypertarget{iv.-qda-has-a-lower-sensitivity-to-classify-deceased-compared-to-lda.}{%
+\subsubsection{iv). QDA has a lower sensitivity to classify deceased
+compared to
+LDA.}\label{iv.-qda-has-a-lower-sensitivity-to-classify-deceased-compared-to-lda.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{qda\_model }\OtherTok{\textless{}{-}} \FunctionTok{qda}\NormalTok{(deceased }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data=}\NormalTok{d.corona)}
+\NormalTok{qda\_pred }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(qda\_model, }\AttributeTok{newdata=}\NormalTok{test\_data[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
+\NormalTok{qda\_conf }\OtherTok{\textless{}{-}} \FunctionTok{create\_confusion\_matrix}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(qda\_pred[}\DecValTok{1}\NormalTok{]), test\_data}\SpecialCharTok{$}\NormalTok{deceased)}
+\CommentTok{\# Sensitivity for LDA}
+\NormalTok{conf\_matrix[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{] }\SpecialCharTok{/}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(conf\_matrix[}\DecValTok{2}\NormalTok{,]))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] NaN
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Sensitivity for QDA}
+\NormalTok{qda\_conf[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{] }\SpecialCharTok{/}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(qda\_conf[}\DecValTok{2}\NormalTok{,]))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9016393
+\end{verbatim}
+
+False, they are equal
+
+\hypertarget{task-3}{%
+\section{Task 3}\label{task-3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# read file}
+\NormalTok{id }\OtherTok{\textless{}{-}} \StringTok{"1i1cQPeoLLC\_FyAH0nnqCnnrSBpn05\_hO"}  \CommentTok{\# google file ID}
+\NormalTok{diab }\OtherTok{\textless{}{-}} \FunctionTok{dget}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"https://docs.google.com/uc?id=\%s\&export=download"}\NormalTok{, id))}
+
+\NormalTok{t }\OtherTok{=}\NormalTok{ MASS}\SpecialCharTok{::}\NormalTok{Pima.tr2}
+\NormalTok{train }\OtherTok{=}\NormalTok{ diab}\SpecialCharTok{$}\NormalTok{ctrain}
+\NormalTok{test }\OtherTok{=}\NormalTok{ diab}\SpecialCharTok{$}\NormalTok{ctest}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{a-2}{%
+\subsection{A)}\label{a-2}}
+
+\hypertarget{i}{%
+\subsubsection{i)}\label{i}}
+
+\hypertarget{todo-show-that}{%
+\paragraph{TODO: Show that\ldots{}}\label{todo-show-that}}
+
+\hypertarget{ii}{%
+\subsubsection{ii)}\label{ii}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{logReg }\OtherTok{=} \FunctionTok{glm}\NormalTok{(diabetes }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ train, }\AttributeTok{family =} \StringTok{"binomial"}\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(logReg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = diabetes ~ ., family = "binomial", data = train)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.8155  -0.6367  -0.3211   0.6147   2.2408  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(>|z|)    
+## (Intercept) -10.583538   1.428276  -7.410 1.26e-13 ***
+## npreg         0.105109   0.062721   1.676 0.093775 .  
+## glu           0.035586   0.005892   6.039 1.55e-09 ***
+## bp           -0.014654   0.013982  -1.048 0.294615    
+## skin          0.020379   0.020575   0.990 0.321962    
+## bmi           0.094683   0.031265   3.028 0.002458 ** 
+## ped           1.931666   0.529573   3.648 0.000265 ***
+## age           0.038291   0.020247   1.891 0.058594 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 381.91  on 299  degrees of freedom
+## Residual deviance: 253.84  on 292  degrees of freedom
+## AIC: 269.84
+## 
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cutOff }\OtherTok{=} \FloatTok{0.5}
+\NormalTok{pred\_log\_reg }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(logReg, }\AttributeTok{newdata =}\NormalTok{ test[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{], }\AttributeTok{type=}\StringTok{"response"}\NormalTok{)}
+\NormalTok{conf\_mat }\OtherTok{=} \FunctionTok{create\_confusion\_matrix}\NormalTok{(pred\_log\_reg}\SpecialCharTok{\textgreater{}}\NormalTok{cutOff, test}\SpecialCharTok{$}\NormalTok{diabetes)}
+\NormalTok{conf\_mat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               target
+## pred           PRED FALSE PRED TRUE
+##   TARGET FALSE        137        29
+##   TARGET TRUE          18        48
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\StringTok{"The sensitivity is:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The sensitivity is:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conf\_mat[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{/}\NormalTok{(conf\_mat[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}\SpecialCharTok{+}\NormalTok{conf\_mat[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7272727
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\StringTok{"The specificity is:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The specificity is:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conf\_mat[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}\SpecialCharTok{/}\NormalTok{(conf\_mat[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{+}\NormalTok{conf\_mat[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8253012
+\end{verbatim}
+
+\hypertarget{b-1}{%
+\subsection{B)}\label{b-1}}
+
+\hypertarget{i-1}{%
+\subsubsection{i)}\label{i-1}}
+
+\hypertarget{todo-explain-what-the-coefficients-are.}{%
+\paragraph{TODO: Explain what the coefficients
+are.}\label{todo-explain-what-the-coefficients-are.}}
+
+\hypertarget{ii-1}{%
+\subsubsection{ii)}\label{ii-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lda\_model }\OtherTok{\textless{}{-}} \FunctionTok{lda}\NormalTok{(diabetes }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data=}\NormalTok{train)}
+\NormalTok{pred\_lda }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(lda\_model, }\AttributeTok{newdata=}\NormalTok{test[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
+\NormalTok{conf\_mat }\OtherTok{=} \FunctionTok{create\_confusion\_matrix}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(pred\_lda[}\DecValTok{1}\NormalTok{]), test}\SpecialCharTok{$}\NormalTok{diabetes)}
+\NormalTok{conf\_mat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               target
+## pred           PRED FALSE PRED TRUE
+##   TARGET FALSE        138        30
+##   TARGET TRUE          17        47
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# With cutOff = 0.5: pred[1]}
+\CommentTok{\# Posterior probabilities: pred[2]}
+
+\NormalTok{qda\_model }\OtherTok{\textless{}{-}} \FunctionTok{qda}\NormalTok{(diabetes }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data=}\NormalTok{train)}
+\NormalTok{pred\_qda }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(qda\_model, }\AttributeTok{newdata=}\NormalTok{test[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
+\NormalTok{conf\_mat }\OtherTok{=} \FunctionTok{create\_confusion\_matrix}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(pred\_qda[}\DecValTok{1}\NormalTok{]), test}\SpecialCharTok{$}\NormalTok{diabetes)}
+\NormalTok{conf\_mat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               target
+## pred           PRED FALSE PRED TRUE
+##   TARGET FALSE        131        32
+##   TARGET TRUE          24        45
+\end{verbatim}
+
+\hypertarget{todo-explain-difference-between-the-models.}{%
+\paragraph{TODO: Explain difference between the
+models.}\label{todo-explain-difference-between-the-models.}}
+
+\hypertarget{c-1}{%
+\subsection{C)}\label{c-1}}
+
+\hypertarget{i-2}{%
+\subsubsection{i)}\label{i-2}}
+
+\hypertarget{todo-explain-how-a-new-observation-is-classified.}{%
+\paragraph{TODO: Explain how a new observation is
+classified.}\label{todo-explain-how-a-new-observation-is-classified.}}
+
+\hypertarget{ii-2}{%
+\subsubsection{ii)}\label{ii-2}}
+
+\hypertarget{todo-explain-how-to-choose-the-tuning-parameter.}{%
+\paragraph{TODO: Explain how to choose the tuning
+parameter.}\label{todo-explain-how-to-choose-the-tuning-parameter.}}
+
+\hypertarget{iii}{%
+\subsubsection{iii)}\label{iii}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pred\_knn }\OtherTok{\textless{}{-}} \FunctionTok{knn}\NormalTok{(}\AttributeTok{train =}\NormalTok{ train[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{], }\AttributeTok{test=}\NormalTok{test[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{], }\AttributeTok{cl=}\FunctionTok{unlist}\NormalTok{(train[}\DecValTok{1}\NormalTok{]), }\AttributeTok{k=}\DecValTok{25}\NormalTok{, }\AttributeTok{prob=}\ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{convert }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(pred, prob) \{}
+  \CommentTok{\# Invert probabilities: the probabilites from knn(...) are the success probabilities}
+  \CommentTok{\# for the predicted class, thus P(y=2) = 1 {-} P(y=1) when we predicted 1.}
+\NormalTok{  inv\_prob }\OtherTok{=} \FunctionTok{c}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{(pos }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(prob)) \{}
+\NormalTok{    inv\_prob[pos] }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(pred[pos])}\SpecialCharTok{==}\DecValTok{2}\NormalTok{, prob[pos], }\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{prob[pos])}
+\NormalTok{  \}}
+  \FunctionTok{return}\NormalTok{(inv\_prob)}
+\NormalTok{\}}
+\NormalTok{prob\_knn\_adj }\OtherTok{\textless{}{-}} \FunctionTok{convert}\NormalTok{(pred\_knn, }\FunctionTok{attributes}\NormalTok{(pred\_knn)}\SpecialCharTok{$}\NormalTok{prob)}
+
+\NormalTok{conf\_mat }\OtherTok{=} \FunctionTok{create\_confusion\_matrix}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(pred\_knn), test}\SpecialCharTok{$}\NormalTok{diabetes)}
+\NormalTok{conf\_mat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               target
+## pred           PRED FALSE PRED TRUE
+##   TARGET FALSE        144        36
+##   TARGET TRUE          11        41
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\StringTok{"The sensitivity is:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The sensitivity is:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conf\_mat[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{/}\NormalTok{(conf\_mat[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}\SpecialCharTok{+}\NormalTok{conf\_mat[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7884615
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{print}\NormalTok{(}\StringTok{"The specificity is:"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The specificity is:"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{conf\_mat[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}\SpecialCharTok{/}\NormalTok{(conf\_mat[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{+}\NormalTok{conf\_mat[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8
+\end{verbatim}
+
+\hypertarget{d-2}{%
+\subsection{D)}\label{d-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{roc.log\_reg }\OtherTok{\textless{}{-}} \FunctionTok{roc}\NormalTok{(}\AttributeTok{response =}\NormalTok{ test}\SpecialCharTok{$}\NormalTok{diabetes, }\AttributeTok{predictor =}\NormalTok{ pred\_log\_reg, }\AttributeTok{plot=}\ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{roc.lda }\OtherTok{\textless{}{-}} \FunctionTok{roc}\NormalTok{(}\AttributeTok{response =}\NormalTok{ test}\SpecialCharTok{$}\NormalTok{diabetes, }\AttributeTok{predictor =}\NormalTok{ pred\_lda}\SpecialCharTok{$}\NormalTok{posterior[,}\DecValTok{2}\NormalTok{], }\AttributeTok{plot=}\ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{roc.qda }\OtherTok{\textless{}{-}} \FunctionTok{roc}\NormalTok{(}\AttributeTok{response =}\NormalTok{ test}\SpecialCharTok{$}\NormalTok{diabetes, }\AttributeTok{predictor =}\NormalTok{ pred\_qda}\SpecialCharTok{$}\NormalTok{posterior[,}\DecValTok{2}\NormalTok{], }\AttributeTok{plot=}\ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{roc.knn }\OtherTok{\textless{}{-}} \FunctionTok{roc}\NormalTok{(}\AttributeTok{response =}\NormalTok{ test}\SpecialCharTok{$}\NormalTok{diabetes, }\AttributeTok{predictor =}\NormalTok{ prob\_knn\_adj, }\AttributeTok{plot=}\ConstantTok{FALSE}\NormalTok{)}
+
+\FunctionTok{plot}\NormalTok{(roc.log\_reg, }\AttributeTok{main=}\StringTok{"ROC"}\NormalTok{, }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(roc.lda, }\AttributeTok{add=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{col=}\StringTok{"green"}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(roc.qda, }\AttributeTok{add=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(roc.knn, }\AttributeTok{add=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{col=}\StringTok{"black"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{\textquotesingle{}topright\textquotesingle{}}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"log\_reg"}\NormalTok{,}\StringTok{"lda"}\NormalTok{, }\StringTok{"qda"}\NormalTok{, }\StringTok{"knn"}\NormalTok{),}
+       \AttributeTok{lty=}\DecValTok{1}\NormalTok{, }\AttributeTok{col=}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{,}\StringTok{\textquotesingle{} black\textquotesingle{}}\NormalTok{), }\AttributeTok{bty=}\StringTok{\textquotesingle{}n\textquotesingle{}}\NormalTok{, }\AttributeTok{cex=}\NormalTok{.}\DecValTok{75}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{CompulsoryExercise_1_files/figure-latex/roc-1.pdf}
+
+\hypertarget{todo-which-model-performs-better}{%
+\subsubsection{TODO: Which model performs
+better?}\label{todo-which-model-performs-better}}
+
+\hypertarget{todo-which-model-is-interpretable-and-performs-well}{%
+\subsubsection{TODO: Which model is interpretable and performs
+well?}\label{todo-which-model-is-interpretable-and-performs-well}}
+
+\hypertarget{problem-4}{%
+\section{Problem 4}\label{problem-4}}
+
+\hypertarget{a-3}{%
+\subsection{A)}\label{a-3}}
+
+Show that for the linear regression model \(Y=X\beta+\epsilon\) the
+LOOCV statistic can be computed by the following formula
+
+\(CV = \frac{1}{N}\sum^N_{i=1}(\frac{y_i - \hat{y}_i}{1-h_i})^2\), where
+\(h_i=X^T_i(X_TX)^{-1}x_i\), and \(x^T_i\) is the ith row of X.
+
+The estimate of \(\beta\) is given by
+\(\hat{\beta_i}=(X^T_{(-i)}X_{(-i)})X_{(-i)}Y\)
+
+This gives us that \(y_i-\hat{y}_i = y_i - x^T_{(-i)}\hat{\beta_i}\)
+
+We know that \(X^T_{(-i)}X_{(-i)}=(X^TX−x_{i}x^T_i)\) We can then use
+the Sherman Morrison formula, to find
+\((X^T_{(-1)}X_{(-1)})^{-1} = (X^TX)^{−1}+\frac{(X^TX)^{−1}x_{i}x^T_{i}(X^TX)^{−1}}{1−h_i}\)
+
+We can use this to find \(\hat{\beta}\)
+
+\[\hat{\beta}_i 
+= ((X^TX)^{−1}+\frac{(X^TX)^{−1}x_{i}x^T_{i}(X^TX)^{−1}}{1−h_i})(X^TY-x_iy_i)\]
+\[
+= \hat{\beta} - (\frac{(X^TX)^{−1}x_{i}}{1−h_i})(y_i(1-h_i)-x^T_i\hat{\beta}+h_iy_i)
+=\hat{\beta}-(X^TX)^{-1}x_i\frac{y_i - \hat{y}_i}{1-h_i}
+\]
+
+Therefore we get,
+
+\[
+y_i - \hat{y}_i = y_i-x^T_i\hat{\beta} = y_i-x^T_i(\hat{\beta}-(X^TX)^{-1}x_i\frac{y_i - \hat{y}_i}{1-h_i}) 
+\] \[y_i - \hat{y}_i \ h_i \frac{y_i - \hat{y}_i}{1-h_i}
+= \frac{y_i - \hat{y}_i}{1-h_i}
+\] This concludes the proof and shows that
+\(CV = \frac{1}{N}\sum^N_{i=1}(\frac{y_i - \hat{y}_i}{1-h_i})^2\)
+
+\hypertarget{b-2}{%
+\subsection{B)}\label{b-2}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  False
+\item
+  True
+\item
+  ?
+\item
+  False
+\end{enumerate}
+
+\hypertarget{problem-5}{%
+\section{Problem 5}\label{problem-5}}
+
+\hypertarget{a-4}{%
+\subsection{A)}\label{a-4}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{id }\OtherTok{\textless{}{-}} \StringTok{"19auu8YlUJJJUsZY8JZfsCTWzDm6doE7C"} \CommentTok{\# google file ID}
+\NormalTok{d.bodyfat }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"https://docs.google.com/uc?id=\%s\&export=download"}\NormalTok{, id),}\AttributeTok{header=}\NormalTok{T)}
+
+\NormalTok{rsquared }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, indices) \{}
+\NormalTok{  d }\OtherTok{\textless{}{-}}\NormalTok{ data[indices,] }\CommentTok{\# select samples}
+\NormalTok{  fit }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(bodyfat }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ weight }\SpecialCharTok{+}\NormalTok{ bmi, }\AttributeTok{data =}\NormalTok{ d)}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{summary}\NormalTok{(fit)}\SpecialCharTok{$}\NormalTok{r.square)}
+\NormalTok{\}}
+
+\FunctionTok{rsquared}\NormalTok{(d.bodyfat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5803041
+\end{verbatim}
+
+The R\^{}2 for a linear regression model is 0.5803
+
+\hypertarget{b-3}{%
+\subsection{B)}\label{b-3}}
+
+\hypertarget{i-3}{%
+\subsubsection{i)}\label{i-3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{4268}\NormalTok{)}
+
+\CommentTok{\# bootstrapping with 1000 replications}
+\NormalTok{results }\OtherTok{\textless{}{-}} \FunctionTok{boot}\NormalTok{(}\AttributeTok{data=}\NormalTok{d.bodyfat, }\AttributeTok{statistic=}\NormalTok{rsquared,}
+                \AttributeTok{R=}\DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{ii-3}{%
+\subsubsection{ii)}\label{ii-3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# view results}
+\FunctionTok{plot}\NormalTok{(results)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{CompulsoryExercise_1_files/figure-latex/problem 5 bootstrap plot-1.pdf}
+
+\hypertarget{iii-1}{%
+\subsubsection{iii)}\label{iii-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# standard error}
+\FunctionTok{apply}\NormalTok{(results}\SpecialCharTok{$}\NormalTok{t, }\DecValTok{2}\NormalTok{, sd)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.03960949
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# get 95\% confidence interval}
+\FunctionTok{boot.ci}\NormalTok{(results, }\AttributeTok{type=}\StringTok{"bca"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 1000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = results, type = "bca")
+## 
+## Intervals : 
+## Level       BCa          
+## 95%   ( 0.5047,  0.6569 )  
+## Calculations and Intervals on Original Scale
+\end{verbatim}
+
+\hypertarget{iv}{%
+\subsubsection{iv)}\label{iv}}
+
+This confidence interval tells us that there are a 95\% probability that
+the interval will contain the true R2 value.
+
+\end{document}

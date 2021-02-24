@@ -219,29 +219,40 @@ create_confusion_matrix <- function(pred, target) {
 
 conf_matrix <- create_confusion_matrix(unlist(lda_pred[1]), test_data$deceased)
 sum(conf_matrix)
-null_rate <- (conf_matrix[2,1] + conf_matrix[2,2]) / sum(conf_matrix) 
+# Null rate
+(conf_matrix[1,2] + conf_matrix[2,2]) / sum(conf_matrix) 
 ```
-### i). The "null rate" for misclassification is 5.22%, because this is the proportion of deaths among all cases in the dataset. 
+### i). 
+**The "null rate" for misclassification is 5.22%, because this is the proportion of deaths among all cases in the dataset.**
 False
 
-### ii). LDA is not a very useful method for this dataset.
+### ii).
+**LDA is not a very useful method for this dataset.**
 False
 
-### iii). LDA has a specificity of 1.
+### iii). 
+**LDA has a specificity of 1.**
 ```{r problem 2 specificity, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
-specificity <- conf_matrix[1,1] / (conf_matrix[1,1] + conf_matrix[1,2])
+conf_matrix[1,1] / (conf_matrix[1,1] + conf_matrix[1,2])
 ```
 False
 
-### iv). QDA has a lower sensitivity to classify deceased compared to LDA.
+### iv). 
+**QDA has a lower sensitivity to classify deceased compared to LDA.**
 ```{r problem 2 qda, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
-qda_model <- qda(deceased ~ ., data=d.corona)
-qda_pred <- predict(qda_model, newdata=test_data[-1])
+qda.fit <- qda(deceased ~ age + country + sex, data=d.corona)
+qda_pred <- predict(qda.fit, newdata=test_data[-1])
 qda_conf <- create_confusion_matrix(unlist(qda_pred[1]), test_data$deceased)
-sens_lda <- conf_matrix[2,1] / (sum(conf_matrix[2,]))
-sens_qda <- qda_conf[2,1] / (sum(qda_conf[2,]))
+conf_matrix
+# Sensitivity for LDA
+lda_sens <- conf_matrix[2,1] / (conf_matrix[2,1] + conf_matrix[2,2])
+# Sensitivity for QDA
+qda_sens <- qda_conf[2,1] / (sum(qda_conf[2,]))
+
+qda_sens < lda_sens
 ```
-False, they are equal
+False
+
 
 # Task 3
 
