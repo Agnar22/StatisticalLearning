@@ -259,7 +259,13 @@ test = diab$ctest
 ## A)
 
 ### i)
-#### TODO: Show that...
+$P(y_i = 1| \mathbf{X}={\mathbf{x}}_i) = p_i = \frac{e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}{ 1+ e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}$
+
+$1-p_i=\frac{1+e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}-e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}{ 1+ e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}= \frac{1}{ 1+ e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}$
+
+$\frac{p_i}{1-p_i}=\frac{\frac{e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}{ 1+ e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}}{\frac{1}{ 1+ e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}}}=e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}}$
+
+$log(\frac{p_i}{1-p_i})=log(e^{\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}})=\beta_0 + \beta_1x_{i1} + \beta_2 x_{i2} + \dots + \beta_7 x_{i7}$
 
 ### ii)
 ```{r logistic regression 3, include=TRUE, message=FALSE, eval=TRUE, tidy=TRUE}
