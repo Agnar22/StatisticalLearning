@@ -1,12 +1,11 @@
 ---
-subtitle: "TMA4268 Statistical Learning V2021"
-title: "Compulsory exercise 1: 42"
-author: "Agnar Martin Bjørnstad, Sebastian Aas"
+title: 'Compulsory exercise 1: 42'
+author: "Agnar Martin Bjornstad, Sebastian Aas"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  html_document:
-    df_print: paged
+  html_document: default
   pdf_document: default
+subtitle: TMA4268 Statistical Learning V2021
 ---
 
 ```{r setup, include=FALSE}
@@ -270,10 +269,8 @@ qda_conf <- create_confusion_matrix(unlist(qda_pred[1]), d.corona$deceased)
 lda_sens <- conf_matrix[2,1] / (conf_matrix[2,1] + conf_matrix[2,2])
 # Sensitivity for QDA
 qda_sens <- qda_conf[2,1] / (sum(qda_conf[2,]))
-
-qda_sens < lda_sens
 ```
-False
+True
 
 
 # Task 3
