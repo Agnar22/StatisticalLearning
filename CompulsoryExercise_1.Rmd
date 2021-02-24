@@ -285,11 +285,13 @@ conf_mat
 ### i)
 The KNN classifier classifies a new observation by first finding its k closest points in the training data,
 then it estimates the conditional probability for class j as the fraction of the k points that are of class j.
+There are different metrics for "closeness". Exampel of common ones are: euclidian distance, cosine distance and manhatan distance.
 More formally:
 
 $Pr(\mathbf{Y}=j|\mathbf{X}=\mathbf{x}_0)=\frac{1}{K}\sum_{i\epsilon N} I(\mathbf{y}_i=j)$
 
 where $I(x)$ is 1 if $\mathbf{x}$ is true and 0 if $\mathbf{x}$ is false and $N$ is the set of k closest points.
+The final classification for the new variable is the most occuring class among its neighbours.
 
 ### ii)
 #### TODO: Explain how to choose the tuning parameter.
