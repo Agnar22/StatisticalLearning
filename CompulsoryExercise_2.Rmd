@@ -4,7 +4,7 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(error=TRUE)
 ```
 
 ```{r libraries,eval=FALSE,include=FALSE}
@@ -21,7 +21,6 @@ knitr::opts_chunk$set(echo = TRUE)
 #install.packages("e1071")
 #install.packages("dplyr")
 #install.packages("crop")
-#install.packages("rpart")
 library(knitr)
 library(rmarkdown)
 library(ggplot2)
@@ -35,22 +34,21 @@ library(readr)
 library(e1071)
 library(dplyr)
 library(crop)
-library(rpart)
 ```
 
 
-## Problem 1
+# Problem 1
 
 
-### A)
+## 1A)
 
-1. True
-2. True
-3. True
-4. False
+### i) True
+### ii) True
+### iii) True
+### iv) False
 
 
-### B)
+## 1B)
 
 ```{r load data, include=TRUE}
 id <- "1iI6YaqgG0QJW5onZ_GTBsCvpKPExF30G" # google file ID
@@ -61,9 +59,8 @@ set.seed(4268)
 train.ind = sample(1:nrow(catdat), 0.5*nrow(catdat))
 catdat.train = catdat[train.ind,]
 catdat.test = catdat[-train.ind,]
-regfit_full <- regsubsets(birds~., data = catdat.train)
+regfit_full <- regsubsets(birds~., data = catdat.train, nvmax=17)
 reg_summary <- summary(regfit_full)
-reg_summary
 ```
 
 
@@ -88,20 +85,57 @@ points(min_bic,reg_summary$bic [min_bic],col="red",cex=2,pch=20)
 ```{r s, include=TRUE}
 plot(regfit.full, scale="bic")
 ```
-To decide the best subset of variables, we use the Bayesian information criteria.The reason we use BIC and not R squared, is that BIC penalizes the number of parameters in the model. If we want to use a subset of the variables, it is therefore better to use BIC. We can see from the plots that the best model has only six variables, which are wetfood, daily playtime, children, urban, bell and daily outdoortime.
+As we see from the plot of RSS, Adjusted RSq, Cp and BIC, the metrics for the number of variables are quite the same for RSS, Cp and Adjusted RSq. The plot which the number of variables have the most impact is BIC. The best score of BIC is for 6 variables. To see the variables which are selected, we use the plot function for regsubsets. This shows that the selected variables are wetfood, daily.playtime, children.13, urban, bell and daily.outdoortime. It is also possible to select the variables using cross-validation, as shown below
 
-```{r 2, include=TRUE}
-regfit.best <- regsubsets(birds ~ ., data = catdat.test)
-test.mat = model.matrix(birds ~ ., data=catdat.train)
+```{r, include=TRUE}
 
-val.errors=rep(NA,8)
-for(i in 1:8){
-  coefi=coef(regfit.best,id=i)
-  pred=test.mat[,names(coefi)]%*%coefi
-  val.errors[i]=mean((catdat.test$birds-pred)^2)
+# Predict function for regsubsets
+predict.regsubsets = function(object, newdata, id, ...){
+  form=as.formula(object$call[[2]])
+  mat=model.matrix(form, newdata)
+  coefi=coef(object, id=id)
+  xvars=names(coefi)
+  mat[, xvars]%*%coefi
 }
 
-val.errors
+
+k = 10
+set.seed(1)
+folds=sample(1:k, nrow(catdat.train), replace = TRUE)
+cv.errors = matrix(NA, k, ncol(catdat.train))
+
+# Perform Cross Validation
+for (j in 1:k){
+  best_subset_method = regsubsets(birds ~ ., data = catdat.train[folds!=j,], nvmax = ncol(catdat.train))
+  for (i in 1:(ncol(catdat.train)-1)){
+    pred = predict(best_subset_method, catdat.train[folds==j,], id=i)
+    cv.errors[j,i] = mean((catdat.train$birds[folds==j]-pred)^2)
+  }
+}
+
+mean.cv.errors = apply(cv.errors,2,mean)
+mean.cv.errors
+```
+Using cross validation, it is the model with 13 variables that are the best. To calculate the mse, we use the model with 6 variables from the first results, instead of cross-validation. 
+
+```{r, include=TRUE}
+number_of_variables <- 6
+
+variables <- names(coef(best_subset_method, id=number_of_variables))
+variables <- variables[!variables %in% "(Intercept)"]
+bsm_formula <- as.formula(best_subset_method$call[[2]])
+bsm_design_matrix <- model.matrix(bsm_formula, catdat.train)[, variables]
+bsm_data_train <- data.frame(birds = catdat.train$birds, bsm_design_matrix)
+
+best_subset_model <- lm(formula = bsm_formula, bsm_data_train)
+
+# Prediction on test set
+test_matrix <- model.matrix(bsm_formula, catdat.test)[, variables]
+predictions <- predict(object= best_subset_model, newdata = as.data.frame(test_matrix))
+
+# MSE Error
+mse.best_subset <- mean((catdat.test$birds - predictions)^2)
+cat("The mse of the best subset model are", mse.best_subset)
 ```
 
 ### C)
@@ -116,19 +150,35 @@ y.test = catdat.test$birds
 ```{r, include=TRUE}
 set.seed(1)
 grid=10^seq(10,-2,length=100)
-lasso.mod = glmnet(x.train, y.train, alpha=1, lambda = grid)
-plot(lasso.mod)
 
+# Fitting a lasso model 
+lasso.mod = glmnet(x.train, y.train, alpha=1, lambda = grid)
+
+# Cross validation on the model to find the correct lambda 
 cv.out=cv.glmnet(x.train,y.train,alpha=1)
-plot(cv.out)
-bestlam=cv.out$lambda.min
+
+# Choose the lamda which gives the lowest score on the cross-validation
+best_lambda=cv.out$lambda.min
+
+#Predict on the test set
 lasso.pred=predict(lasso.mod,s=bestlam ,newx=x.test)
-mse = mean((lasso.pred-y.test)^2)
-cat("The MSE for the lasso regression model are ", mse, "\n")
+
+# Calculate the MSE from the predictions and the actual values in the test set
+mse.lasso = mean((lasso.pred-y.test)^2)
+cat("The MSE for the lasso regression model are ", mse.lasso, "\n")
+
+# Find the non zero coefficients
 out=glmnet(x.test,y.test,alpha=1,lambda=grid)
-lasso.coef=predict(out,type="coefficients",s=bestlam)[1:18,]
-print("The non zero coefficients are:")
-lasso.coef[lasso.coef!=0]
+lasso.coefs <- coef(out, s=best_lambda)
+non_zero.coef = lasso.coefs[which(lasso.coef!=0)]
+coef.names = coefs@Dimnames[[1]][which(lasso.coef!=0)]
+results <- data.frame(
+  features = coef.names, #intercept included
+  coefs    = non_zero.coef  #intercept included
+)
+
+# The non zero coefficients are:
+results
 ```
 
 ### D)
@@ -136,19 +186,43 @@ The tuning parameter serves the purpose of controlling the RSS and the shrinkage
 
 ### E)
 
+```{r, include=TRUE}
+# Model with only intercept
+model.intercept <- lm(birds ~ 1, catdat.train)
+
+# Model with all covariates 
+model.all <- lm(birds ~ ., catdat.train)
+
+prediction.intercept <- predict(model.intercept, catdat.test)
+prediction.all <- predict(model.all, catdat.test)
+
+mse.intercept <- mean((catdat.test$birds - prediction.intercept)^2)
+mse.all <- mean((catdat.test$birds - prediction.all)^2)
+
+cat("The mse of only intercept model are ", mse.intercept, "\n")
+cat("The mse of all covariates model are ", mse.all)
+```
+
 ### F)
+```{r, include=TRUE}
+results <- matrix(c(mse.best_subset, mse.lasso, mse.intercept, mse.all), ncol=1)
+rownames(results) <- c("Best subset model", "Lasso", "Model with only intercept", "Multiple linear regression using all covariates")
+colnames(results) <- c("MSE")
+results
+```
+From the table, we can see that the best model is the lasso model. In second place we have the best subset model. We can also see that the linear regression model with all covariates is almost as good as the subset model, and the only intercept model is way worse. It does fit what is expected, as we could see from the metric plots from B) that the model with all covariates was almost as good as the subset model.
 
 
-## Problem 2.
+# Problem 2.
 
-### A) 
+## 2A) 
  
 1. True
-2. False (Litt usikker)
-3. False (https://www.math.ntnu.no/emner/TMA4268/2018v/7BeyondLinear/7.pdf)
+2. False 
+3. False 
 4. False
 
-### B)
+## 2B)
 
 One way of representing a cubic spline is to use $x, x^2, x^3$ and then add one trucated power basis function per knot. 
 
@@ -156,31 +230,61 @@ The truncated power basis function is defined as $h(x,\xi) = (x-\xi)^3_+$ if x i
 
 This gives us the basis functions $x, x^2, x^3, (x-q_1)^3, (x-q_2)^3$
 
-### C)
+## 2C)
 
 ```{r, include=TRUE}
-for(i in 1:10){
-  model <- lm(birds ~ poly(daily.outdoortime, i), data = catdat.train)
-  predictions <- model %>% predict(catdat.train)
-  plot(predictions)
+ds = catdat.train[c("birds", "daily.outdoortime")]
+n = nrow(ds)
+
+deg = 1:10
+set.seed(1)
+
+
+# Colors to use for lines
+co = rainbow(length(deg))
+
+
+dat = c()
+
+for (i in deg) {
+  model = lm(birds ~ poly(daily.outdoortime, i), data=ds)
+  poly.predictions <- model %>% predict(ds)
+  dat = rbind(
+    dat,
+    data.frame(
+      daily.outdoortime = ds$daily.outdoortime, 
+      birds = model$fit, 
+      degree=as.factor(rep(i, length(model$fit)))
+    )
+  )
+  mse.poly[i] = mean((poly.predictions - ds$birds)^2)
 }
+
+ggplot(data = ds, aes(x=daily.outdoortime, y=birds)) + geom_point(color="darkgrey") + labs(title = "Polynomial regression") + geom_line(data=dat,  aes(x=daily.outdoortime, y=birds, color=degree))
+
+# Training MSE fro all polynomial regression models 
+MSEdata = data.frame(MSE=mse.poly, degree=deg)
+ggplot(data=MSEdata, aes(x=degree, y=MSE)) + geom_line() + geom_point() + labs(title = "MSE error")
 ```
+Polynomial regression is a regression form, where there are added more predictors, which are the original predictors raised to a power. Instead of using the regular for a linear model $y_i =\beta_0 + \beta_1 x_1 + \xi_i$, it is used a polynomial function, $y_1 = \beta_0 + \beta_1 x_1 + \beta_2x_1^2+ ... + \beta_d x_i^d + \xi_i$.  
 
 
 
-## Problem 3.
+# Problem 3.
 
-### A)
+## 4A)
 
-1. False
-2. True
-3. True
-4. False
+### i) True
+### ii) True
+### iii) False
+### iv) False
 
-## B)
-By looking at the tree above, we can conclude that we will have two nodes left, which are age < 81.5, and country: indonesia, japan, Korea. This will give us three leaves, two for the split between countries, and one for the split between age. The reason we are left with age and country as nodes, are that they have more observations than age < 46.5. When building a regression tree, 
+## 4B)
+By looking at the tree above, we can conclude that we will have two nodes left, which are age < 81.5, and age < 46.5. This will give us three leaves, two for the split between age < 46.5, and one for the split between age < 81.5. The reason we are left with age < 46.5 and age < 81.5 as nodes, are that they were the first nodes which created.   
 
-## C)
+## 3C)
+
+### i)
 
 ```{r}
 id <- "1Fv6xwKLSZHldRAC1MrcK2mzdOYnbgv0E" # google file ID
@@ -191,29 +295,40 @@ d.test=d.diabetes$ctest
 
 ```{r, include=TRUE}
 set.seed(1)
-t.diabetes <- tree(diabetes ~ . , data=d.train)
-#plot(t.diabetes)
-#text(t.diabetes)
-#title(main = "Unpruned Classification Tree")
+d.train$diabetes <- as.factor(d.train$diabetes)
+d.test$diabetes <- as.factor(d.test$diabetes)
+t.diabetes = tree(diabetes ~ ., data=d.train)
+summary(t.diabetes)
 
-cv.diabetes=cv.tree(t.diabetes, FUN = prune.misclass)
+cv.diabetes=cv.tree(t.diabetes, FUN=prune.misclass)
+min_idx = which.min(cv.diabetes$dev)
 plot(cv.diabetes$size,cv.diabetes$dev,type="b",
                    xlab="Terminal nodes")
 
-#par(mfrow = c(1, 2))
-# default plot
-#plot(cv.diabetes)
-# better plot
-#plot(cv.diabetes$size, cv.diabetes$dev / nrow(cv.diabetes), type = "b",
-    # xlab = "Tree Size", ylab = "CV Misclassification Rate")
+cv.diabetes$size[min_idx]
+prune.diabetes <- prune.misclass(t.diabetes, best=17)
+predictions = predict(prune.diabetes, d.test, type = "class")
+# test confusion
+pred_matrix <- table(predicted = predictions , actual = d.test$diabetes)
+mis_error <- (pred_matrix[1,2] + pred_matrix[2,1]) /sum(pred_matrix)
+cat("The missclassification error is ", mis_error)
 ```
 
+### ii)
 ```{r, include=TRUE}
 set.seed(1)
+rft.diabetes <- randomForest(diabetes ~ ., data=d.train, importance=TRUE)
+rft.diabetes
+
+predictions = predict(rft.diabetes, d.test, type = "class")
+pred_matrix <- table(predicted = predictions , actual = d.test$diabetes)
+mis_error <- (pred_matrix[1,2] + pred_matrix[2,1]) /sum(pred_matrix)
+cat("The missclassification error is ", mis_error, "\n")
+
+rft.importance <- importance(rft.diabetes)
+rft.importance
 ```
-```{r cars}
-summary(cars)
-```
+We can see from the statistics of mean decrease in accuracy and gini for the different variables, that the most influential variables are bmi and glu.
 
 
 # Problem 4
@@ -419,3 +534,4 @@ summary(GeneData.pca)
 rot_1 = GeneData.pca$rotation[,1]
 rot_1[order(abs(rot_1), decreasing = TRUE)][1:50]
 ```
+
