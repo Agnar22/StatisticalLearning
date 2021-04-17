@@ -4,7 +4,7 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(error=TRUE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r libraries,eval=FALSE,include=FALSE}
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(error=TRUE)
 #install.packages("e1071")
 #install.packages("dplyr")
 #install.packages("crop")
-install.packages("rpart")
+#install.packages("rpart")
 library(knitr)
 library(rmarkdown)
 library(ggplot2)
@@ -210,4 +210,212 @@ plot(cv.diabetes$size,cv.diabetes$dev,type="b",
 
 ```{r, include=TRUE}
 set.seed(1)
+```
+```{r cars}
+summary(cars)
+```
+
+
+# Problem 4
+## 4A)
+### i)
+#### TODO:
+### ii)
+#### TODO:
+### iii)
+#### TODO:
+### iv)
+#### TODO:
+
+## 4B)
+
+```{r task4b_data}
+library(e1071)
+
+id <- "1x_E8xnmz9CMHh_tMwIsWP94czPa1Fpsj"  # google file ID
+d.leukemia <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", id), header = T)
+
+set.seed(2399)
+t.samples <- sample(1:60, 15, replace = F)
+d.leukemia$Category <- as.factor(d.leukemia$Category)
+d.leukemia.test <- d.leukemia[t.samples, ]
+d.leukemia.train <- d.leukemia[-t.samples, ]
+```
+
+### i)
+### TODO: Why is a SVM more suitable than logistic regression. What to use instead?
+### ii)
+The paper proposes an ensamble SVM for gene selection.
+### TODO: Add one more sentence above.
+### iii)
+```{r task4biii}
+svmfit=svm(Category~., data=d.leukemia.train, kernel="linear", cost=1, scale=TRUE)
+summary(svmfit)
+
+pred.train<-predict(svmfit, d.leukemia.train)
+pred.test<-predict(svmfit, d.leukemia.test)
+
+table(pred.train, d.leukemia.train$Category)
+sum(pred.train!=d.leukemia.train$Category)/length(pred.train)
+table(pred.test, d.leukemia.test$Category)
+sum(pred.test!=d.leukemia.test$Category)/length(pred.test)
+```
+From the above code-snippet we see that the error rate for the training set was 0% and
+for the test set it was 26.67%. 
+No, it is not surprising to see that the misclassification rate on the training set
+is 0%, as there are so many features compared to the number of and the data is thus
+probably linearly seprable.
+The most common type of error that we see in the test set are type 2 errors.
+The sensitivity in this case is 0.333, which is very low and the classification
+method is not successful.
+
+#The most common error type in the test set is type 2 errors: there are 4 persons that
+#are classified as Non-Relapse, that relapsed.
+#No, the classification method is not successful as it has a sensitivity of 0.2, which is
+#not good.
+
+### iv)
+
+```{r task4biv_0.00001}
+svmfit_radial=svm(Category~., data=d.leukemia.train, kernel="radial", cost=1, scale=TRUE, gamma=0.00001, na.action=na.omit)
+pred.train<-predict(svmfit_radial, d.leukemia.train)
+table(pred.train, d.leukemia.train$Category)
+pred.test<-predict(svmfit_radial, d.leukemia.test)
+table(pred.test, d.leukemia.test$Category)
+sum(pred.test!=d.leukemia.test$Category)/length(pred.test)
+summary(svmfit_radial)
+```
+
+```{r task4biv_0.01}
+svmfit_radial=svm(Category~., data=d.leukemia.train, kernel="radial", cost=1, scale=TRUE, gamma=0.01, na.action=na.omit)
+pred.train<-predict(svmfit_radial, d.leukemia.train)
+table(pred.train, d.leukemia.train$Category)
+pred.test<-predict(svmfit_radial, d.leukemia.test)
+table(pred.test, d.leukemia.test$Category)
+sum(pred.test!=d.leukemia.test$Category)/length(pred.test)
+summary(svmfit_radial)
+```
+# TODO: Interpret results.
+## (small values of gamma is high bias - low variance)
+## 4C)
+
+### TODO: Use rmd, it is done on paper.
+
+# Problem 5
+## 5A)
+### i)
+True
+### ii)
+False
+### iii)
+False
+### iv)
+False
+
+## 5B)
+```{r task5_handout}
+x1 <- c(1, 2, 0, 4, 5, 6)
+x2 <- c(5, 4, 3, 1, 1, 2)
+```
+
+### i)
+```{r task5bi}
+set.seed(1)
+clusters<-sample(c(1,2), size=length(x1), replace=TRUE)
+clusters
+
+plot(x1, x2, col=clusters, pch=19, main="clustering")
+legend("topleft", legend=c("1", "2"), col=c("black", "red"), bty="o", cex=0.8, pch=19)
+```
+
+## ii)
+```{r task5bii}
+center.1<-c(
+  sum(x1[clusters==1])/length(x1[clusters==1]),
+  sum(x2[clusters==1])/length(x2[clusters==1]))
+center.1
+center.2<-c(
+  sum(x1[clusters==2])/length(x1[clusters==2]),
+  sum(x2[clusters==2])/length(x2[clusters==2]))
+center.2
+
+plot(x1, x2, col=clusters, pch=19, main="clustering")
+points(center.1[1], center.1[2], col="gray", pch=19)
+points(center.2[1], center.2[2], col="darkred", pch=19)
+legend("bottomleft", legend=c("1", "2", "center 1", "center 2"), col=c("black", "red", "gray", "darkred"), bty="o", cex=0.8, pch=19)
+```
+
+
+## iii)
+```{r task5biii}
+euc_dist<-function(a, b) sqrt(sum((a-b)^2))
+points<-matrix(c(x1, x2), nrow=length(x1), ncol=2, byrow=FALSE)
+clusters<-apply(points, 1, function(point) ifelse(euc_dist(point, center.1) < euc_dist(point, center.2),1, 2))
+
+plot(x1, x2, col=clusters, pch=19, main="clustering")
+legend("topleft", legend=c("1", "2"), col=c("black", "red"), bty="o", cex=0.8, pch=19)
+```
+
+
+# Task 5c
+
+```{r task5chandout}
+id <- "1VfVCQvWt121UN39NXZ4aR9Dmsbj-p9OU"  # google file ID
+GeneData <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", 
+                             id), header = F)
+colnames(GeneData)[1:20] = paste(rep("H", 20), c(1:20), sep = "")
+colnames(GeneData)[21:40] = paste(rep("D", 20), c(1:20), sep = "")
+row.names(GeneData) = paste(rep("G", 1000), c(1:1000), sep = "")
+GeneData = t(GeneData)
+GeneData <- scale(GeneData)
+```
+
+```{r task5c}
+par(mfrow=c(2,3))
+euc_dists<-dist(GeneData)
+plot(hclust(euc_dists, method="complete"), main="Complete linkage with euclidian distance")
+plot(hclust(euc_dists, method="single"), main="Single linkage with euclidian distance")
+plot(hclust(euc_dists, method="average"), main="Average linkage with euclidian distance")
+corr_dists<-as.dist(1-cor(t(GeneData))) # TODO: Dobbeltsjekk denne.
+plot(hclust(corr_dists, method="complete"), main="Complete linkage with correlation-based distance")
+plot(hclust(corr_dists, method="single"), main="Single linkage with correlation-based distance")
+plot(hclust(corr_dists, method="average"), main="Average linkage with correlation-based distance")
+```
+
+
+# Task 5d
+
+## TODO: Cluster into groups, which performs best?
+```{r task5d}
+cutree(hclust(euc_dists, method="complete"), k=2)
+cutree(hclust(euc_dists, method="single"), k=2)
+cutree(hclust(euc_dists, method="average"), k=2)
+cutree(hclust(corr_dists, method="complete"), k=2)
+cutree(hclust(corr_dists, method="single"), k=2)
+cutree(hclust(corr_dists, method="average"), k=2)
+```
+
+# Task 5e
+
+## i)
+```{r task5ei}
+GeneData.pca<-prcomp(GeneData, center=TRUE, scale=TRUE)
+GeneData.pca$x[,1]
+GeneData.pca$x[,2]
+
+plot(GeneData.pca$x[,1], GeneData.pca$x[,2], col=c(rep(1, 20), rep(2, 20)))
+```
+
+## ii)
+```{r task5eii}
+summary(GeneData.pca)
+```
+The 5 first principal components explains 21.097% of the total variance.
+
+# Task 5f
+
+```{r task5f}
+summary(GeneData.pca)
+rot_1 = GeneData.pca$rotation[,1]
+rot_1[order(abs(rot_1), decreasing = TRUE)][1:50]
 ```
