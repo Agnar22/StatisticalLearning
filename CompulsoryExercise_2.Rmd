@@ -4,25 +4,210 @@ output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(error=TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r libraries,eval=FALSE,include=FALSE}
+#install.packages("knitr") #probably already installed
+#install.packages("rmarkdown") #probably already installed
+#install.packages("ggplot2") #plotting with ggplot
+#install.packages("ggfortify")
+#install.packages("leaps")
+#install.packages("glmnet")
+#install.packages("tree")
+#install.packages("caret")
+#install.packages("randomForest")
+#install.packages("readr")
+#install.packages("e1071")
+#install.packages("dplyr")
+#install.packages("crop")
+install.packages("rpart")
+library(knitr)
+library(rmarkdown)
+library(ggplot2)
+library(ggfortify)
+library(leaps)
+library(glmnet)
+library(tree)
+library(caret)
+library(randomForest)
+library(readr)
+library(e1071)
+library(dplyr)
+library(crop)
+library(rpart)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+## Problem 1
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+
+### A)
+
+1. True
+2. True
+3. True
+4. False
+
+
+### B)
+
+```{r load data, include=TRUE}
+id <- "1iI6YaqgG0QJW5onZ_GTBsCvpKPExF30G" # google file ID
+catdat <- read.csv(sprintf("https://docs.google.com/uc?id=%s&export=download", id),header=T)
+
+
+set.seed(4268)
+train.ind = sample(1:nrow(catdat), 0.5*nrow(catdat))
+catdat.train = catdat[train.ind,]
+catdat.test = catdat[-train.ind,]
+regfit_full <- regsubsets(birds~., data = catdat.train)
+reg_summary <- summary(regfit_full)
+reg_summary
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r plot, include=TRUE}
+
+
+par(mfrow=c(2,2))
+min_rss <- which.min(reg_summary$rss)
+plot(reg_summary$rss ,xlab="Number of Variables",ylab="RSS",type="l")
+points(min_rss,reg_summary$rss[min_rss], col="red",cex=2,pch=20)
+plot(reg_summary$adjr2 ,xlab="Number of Variables",ylab="Adjusted RSq",type="l")
+max_adj <- which.max(reg_summary$adjr2)
+points(max_adj,reg.summary$adjr2[max_adj], col="red",cex=2,pch=20)
+plot(reg_summary$cp ,xlab="Number of Variables",ylab="Cp",type="l")
+min_cp <- which.min(reg_summary$cp )
+points(min_cp,reg_summary$cp [min_cp],col="red",cex=2,pch=20)
+min_bic <- which.min(reg.summary$bic)
+plot(reg_summary$bic ,xlab="Number of Variables",ylab="BIC",type="l")
+points(min_bic,reg_summary$bic [min_bic],col="red",cex=2,pch=20)
+```
+
+```{r s, include=TRUE}
+plot(regfit.full, scale="bic")
+```
+To decide the best subset of variables, we use the Bayesian information criteria.The reason we use BIC and not R squared, is that BIC penalizes the number of parameters in the model. If we want to use a subset of the variables, it is therefore better to use BIC. We can see from the plots that the best model has only six variables, which are wetfood, daily playtime, children, urban, bell and daily outdoortime.
+
+```{r 2, include=TRUE}
+regfit.best <- regsubsets(birds ~ ., data = catdat.test)
+test.mat = model.matrix(birds ~ ., data=catdat.train)
+
+val.errors=rep(NA,8)
+for(i in 1:8){
+  coefi=coef(regfit.best,id=i)
+  pred=test.mat[,names(coefi)]%*%coefi
+  val.errors[i]=mean((catdat.test$birds-pred)^2)
+}
+
+val.errors
+```
+
+### C)
+
+```{r k, include=TRUE}
+x.train <- model.matrix(birds~., data = catdat.train)[,-1]
+y.train <- catdat.train$birds
+x.test = model.matrix(birds~., data = catdat.test)[,-1]
+y.test = catdat.test$birds
+```
+
+```{r, include=TRUE}
+set.seed(1)
+grid=10^seq(10,-2,length=100)
+lasso.mod = glmnet(x.train, y.train, alpha=1, lambda = grid)
+plot(lasso.mod)
+
+cv.out=cv.glmnet(x.train,y.train,alpha=1)
+plot(cv.out)
+bestlam=cv.out$lambda.min
+lasso.pred=predict(lasso.mod,s=bestlam ,newx=x.test)
+mse = mean((lasso.pred-y.test)^2)
+cat("The MSE for the lasso regression model are ", mse, "\n")
+out=glmnet(x.test,y.test,alpha=1,lambda=grid)
+lasso.coef=predict(out,type="coefficients",s=bestlam)[1:18,]
+print("The non zero coefficients are:")
+lasso.coef[lasso.coef!=0]
+```
+
+### D)
+The tuning parameter serves the purpose of controlling the RSS and the shrinkage penalty, $\lambda \sum \beta^2_j$. When $\lambda \rightarrow \infty$, the ridge regression coefficients estimates will approach zero, since the impact the of the shrinkage penalty increases. When the tuning parameter is zero, ridge regression is the same as RSS, since the shrinkage penalty has no effect.
+
+### E)
+
+### F)
+
+
+## Problem 2.
+
+### A) 
+ 
+1. True
+2. False (Litt usikker)
+3. False (https://www.math.ntnu.no/emner/TMA4268/2018v/7BeyondLinear/7.pdf)
+4. False
+
+### B)
+
+One way of representing a cubic spline is to use $x, x^2, x^3$ and then add one trucated power basis function per knot. 
+
+The truncated power basis function is defined as $h(x,\xi) = (x-\xi)^3_+$ if x is greater than $\xi$ and 0 otherwise.  
+
+This gives us the basis functions $x, x^2, x^3, (x-q_1)^3, (x-q_2)^3$
+
+### C)
+
+```{r, include=TRUE}
+for(i in 1:10){
+  model <- lm(birds ~ poly(daily.outdoortime, i), data = catdat.train)
+  predictions <- model %>% predict(catdat.train)
+  plot(predictions)
+}
+```
+
+
+
+## Problem 3.
+
+### A)
+
+1. False
+2. True
+3. True
+4. False
+
+## B)
+By looking at the tree above, we can conclude that we will have two nodes left, which are age < 81.5, and country: indonesia, japan, Korea. This will give us three leaves, two for the split between countries, and one for the split between age. The reason we are left with age and country as nodes, are that they have more observations than age < 46.5. When building a regression tree, 
+
+## C)
+
+```{r}
+id <- "1Fv6xwKLSZHldRAC1MrcK2mzdOYnbgv0E" # google file ID
+d.diabetes <- dget(sprintf("https://docs.google.com/uc?id=%s&export=download", id))
+d.train=d.diabetes$ctrain
+d.test=d.diabetes$ctest
+```
+
+```{r, include=TRUE}
+set.seed(1)
+t.diabetes <- tree(diabetes ~ . , data=d.train)
+#plot(t.diabetes)
+#text(t.diabetes)
+#title(main = "Unpruned Classification Tree")
+
+cv.diabetes=cv.tree(t.diabetes, FUN = prune.misclass)
+plot(cv.diabetes$size,cv.diabetes$dev,type="b",
+                   xlab="Terminal nodes")
+
+#par(mfrow = c(1, 2))
+# default plot
+#plot(cv.diabetes)
+# better plot
+#plot(cv.diabetes$size, cv.diabetes$dev / nrow(cv.diabetes), type = "b",
+    # xlab = "Tree Size", ylab = "CV Misclassification Rate")
+```
+
+```{r, include=TRUE}
+set.seed(1)
+```
