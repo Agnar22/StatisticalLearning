@@ -550,7 +550,6 @@ The 5 first principal components explains 21.097% of the total variance.
 # Task 5f
 
 ```{r task5f}
-summary(GeneData.pca)
 rot_1 = GeneData.pca$rotation[,1]
 rot_1[order(abs(rot_1), decreasing = TRUE)][1:50]
 ```
