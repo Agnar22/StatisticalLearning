@@ -333,14 +333,10 @@ We can see from the statistics of mean decrease in accuracy and gini for the dif
 
 # Problem 4
 ## 4A)
-### i)
-#### TODO:
-### ii)
-#### TODO:
-### iii)
-#### TODO:
-### iv)
-#### TODO:
+### i) False
+### ii) True
+### iii) False
+### iv) True
 
 ## 4B)
 
@@ -358,10 +354,12 @@ d.leukemia.train <- d.leukemia[-t.samples, ]
 ```
 
 ### i)
-### TODO: Why is a SVM more suitable than logistic regression. What to use instead?
+SVM is a more suitable method here than logistic regression as logistic regression usually
+needs about ten times more cases than the number of explanatory variables. SVM on the other hand works
+well in high dimensional spaces. To achieve a good performance one could instead use random forest.
 ### ii)
-The paper proposes an ensamble SVM for gene selection.
-### TODO: Add one more sentence above.
+The paper proposes an ensamble SVM-Recursive Feature Elimination. They use this method for gene selection and classification.
+
 ### iii)
 ```{r task4biii}
 svmfit=svm(Category~., data=d.leukemia.train, kernel="linear", cost=1, scale=TRUE)
@@ -379,7 +377,7 @@ From the above code-snippet we see that the error rate for the training set was 
 for the test set it was 26.67%. 
 No, it is not surprising to see that the misclassification rate on the training set
 is 0%, as there are so many features compared to the number of and the data is thus
-probably linearly seprable.
+probably linearly separable.
 The most common type of error that we see in the test set are type 2 errors.
 The sensitivity in this case is 0.333, which is very low and the classification
 method is not successful.
@@ -395,6 +393,7 @@ method is not successful.
 svmfit_radial=svm(Category~., data=d.leukemia.train, kernel="radial", cost=1, scale=TRUE, gamma=0.00001, na.action=na.omit)
 pred.train<-predict(svmfit_radial, d.leukemia.train)
 table(pred.train, d.leukemia.train$Category)
+sum(pred.train!=d.leukemia.train$Category)/length(pred.train)
 pred.test<-predict(svmfit_radial, d.leukemia.test)
 table(pred.test, d.leukemia.test$Category)
 sum(pred.test!=d.leukemia.test$Category)/length(pred.test)
@@ -405,16 +404,29 @@ summary(svmfit_radial)
 svmfit_radial=svm(Category~., data=d.leukemia.train, kernel="radial", cost=1, scale=TRUE, gamma=0.01, na.action=na.omit)
 pred.train<-predict(svmfit_radial, d.leukemia.train)
 table(pred.train, d.leukemia.train$Category)
+sum(pred.train!=d.leukemia.train$Category)/length(pred.train)
 pred.test<-predict(svmfit_radial, d.leukemia.test)
 table(pred.test, d.leukemia.test$Category)
 sum(pred.test!=d.leukemia.test$Category)/length(pred.test)
 summary(svmfit_radial)
 ```
-# TODO: Interpret results.
-## (small values of gamma is high bias - low variance)
+From the plots above, we see that when $\gamma$ is 1e-5, it predicts that everything in the training- and test set is
+Non-Relapse, while when $\gamma$ is 1e-2, it fits the training set prefectly, but predicts that everything in the test
+set is Non-Relapse. The reason for this is that a large value of $\gamma$ introduces more variance, and small values of
+$\gamma$ gives more bias. In the first example above, the predictions are biased towards the majority of training targets, Non-Relapse. And as explained, this is very natural. For both values of $\gamma$ for the radial svm, we achieved a misclassification rate of 0.4 on the test set, which is worse than in iii. Considering the training set, a $\gamma$ of 1e-2 gives the same result (prefect fit) as in iii, while a $\gamma$ of 1e-5 gives a misclassification rate of 1/3.
 ## 4C)
 
-### TODO: Use rmd, it is done on paper.
+$$K(x_i, x_i')=(1+\sum_{j=1}^{p}{x_{ij}x_{i'j'}})^d$$
+Writing this out with $d=2$ gives:
+$$K(x_i, x_i')=1+(\sum_{j=1}^{p}{x_{ij}x_{i'j'}})(\sum_{j=1}^{p}{x_{ij}x_{i'j'}})+2*\sum_{j=1}^{p}{x_{ij}x_{i'j'}}$$
+
+Now, if we rewrite this into sums of factors, where is factor is either from $x_i$ or $x_i'$ we get:
+$$K(x_i, x_i')=\sum_{j=1}^{p}{(x_{ij}^2)(x_{i'j'}^2)}+\sum_{j=2}^{p}{\sum_{k=1}^{j-1}{(\sqrt{2}x_{ij}x_{i'k'})(\sqrt{2}x_{ij}x_{i'k'}})}+\sum_{k=1}^{p}{(\sqrt{2}x_{ij})(\sqrt{2}x_{i'j'}})+1$$
+Then we can easily see that if
+
+$$h(X)=(h_1(X)=X_1^2, h_2(X)=X_2^2, h_3(X)=\sqrt{2}X_1, h_4(X)=\sqrt{2}X_1, h_5(X)=\sqrt{2}X_2, h_6(X)=1)$$
+then
+$$K(X, X')=\langle h(X), h(X')\rangle=\sum_{j=1}^{p}{(x_{ij}^2)(x_{i'j'}^2)}+\sum_{j=2}^{p}{\sum_{k=1}^{j-1}{(\sqrt{2}x_{ij}x_{i'k'})(\sqrt{2}x_{ij}x_{i'k'}})}+\sum_{k=1}^{p}{(\sqrt{2}x_{ij})(\sqrt{2}x_{i'j'}})+1=(1+\sum_{j=1}^{p}{x_{ij}x_{i'j'}})^2$$
 
 # Problem 5
 ## 5A)
@@ -491,7 +503,7 @@ euc_dists<-dist(GeneData)
 plot(hclust(euc_dists, method="complete"), main="Complete linkage with euclidian distance")
 plot(hclust(euc_dists, method="single"), main="Single linkage with euclidian distance")
 plot(hclust(euc_dists, method="average"), main="Average linkage with euclidian distance")
-corr_dists<-as.dist(1-cor(t(GeneData))) # TODO: Dobbeltsjekk denne.
+corr_dists<-as.dist(1-cor(t(GeneData)))
 plot(hclust(corr_dists, method="complete"), main="Complete linkage with correlation-based distance")
 plot(hclust(corr_dists, method="single"), main="Single linkage with correlation-based distance")
 plot(hclust(corr_dists, method="average"), main="Average linkage with correlation-based distance")
@@ -500,15 +512,23 @@ plot(hclust(corr_dists, method="average"), main="Average linkage with correlatio
 
 # Task 5d
 
-## TODO: Cluster into groups, which performs best?
 ```{r task5d}
-cutree(hclust(euc_dists, method="complete"), k=2)
-cutree(hclust(euc_dists, method="single"), k=2)
-cutree(hclust(euc_dists, method="average"), k=2)
-cutree(hclust(corr_dists, method="complete"), k=2)
-cutree(hclust(corr_dists, method="single"), k=2)
-cutree(hclust(corr_dists, method="average"), k=2)
+target=c(rep(1, 20), rep(2, 20))
+ct = cutree(hclust(euc_dists, method="complete"), k=2)
+sum(ct!=target)/length(target)
+ct = cutree(hclust(euc_dists, method="single"), k=2)
+sum(ct!=target)/length(target)
+ct = cutree(hclust(euc_dists, method="average"), k=2)
+sum(ct!=target)/length(target)
+ct = cutree(hclust(corr_dists, method="complete"), k=2)
+sum(ct!=target)/length(target)
+ct = cutree(hclust(corr_dists, method="single"), k=2)
+sum(ct!=target)/length(target)
+ct = cutree(hclust(corr_dists, method="average"), k=2)
+sum(ct!=target)/length(target)
 ```
+
+We see that all the trees classifies equally well.
 
 # Task 5e
 
